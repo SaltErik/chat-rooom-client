@@ -39,10 +39,10 @@ class Application extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     console.count(`${this.constructor.name}: constructor`);
-    this.handleChangingChatMessageField = this.handleChangingChatMessageField.bind(this);
+    this.handleChangingChatField = this.handleChangingChatField.bind(this);
+    this.handleChangingUsernameField = this.handleChangingUsernameField.bind(this);
     this.handleSubmitChatMessage = this.handleSubmitChatMessage.bind(this);
     this.handleSubmitUsername = this.handleSubmitUsername.bind(this);
-    this.handleChangingUsernameField = this.handleChangingUsernameField.bind(this);
   }
 
   componentDidMount(this: Application): void {
@@ -98,7 +98,7 @@ class Application extends React.PureComponent<Props, State> {
     return deserialized;
   }
 
-  handleChangingChatMessageField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+  handleChangingChatField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
     console.count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
@@ -226,7 +226,7 @@ class Application extends React.PureComponent<Props, State> {
       return (
         <>
           <Chat
-            onChange={this.handleChangingChatMessageField}
+            onChange={this.handleChangingChatField}
             onSubmit={this.handleSubmitChatMessage}
             messages={messages}
             username={username}
