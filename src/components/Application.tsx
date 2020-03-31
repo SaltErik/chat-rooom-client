@@ -277,26 +277,22 @@ class Application extends React.PureComponent<Props, State> {
 
     if (isUsernameAccepted) {
       return (
-        <>
-          <Chat
-            onChange={this.handleChangingChatField}
-            onSubmit={this.submitChatMessage}
-            messages={messages}
-            username={username}
-            mirror={chatField}
-          />
-        </>
+        <Chat
+          onChange={this.handleChangingChatField}
+          onKeyDown={this.submitChatMessage}
+          messages={messages}
+          username={username}
+          mirror={chatField}
+        />
       );
     }
 
     return (
-      <>
-        <SignIn
-          onSubmit={this.submitUsernameRequest}
-          mirror={usernameField}
-          onChange={this.handleChangingUsernameField}
-        />
-      </>
+      <SignIn
+        onSubmit={this.submitUsernameRequest}
+        mirror={usernameField}
+        onChange={this.handleChangingUsernameField}
+      />
     );
   }
 }

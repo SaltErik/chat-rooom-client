@@ -37,6 +37,7 @@ interface Props {
 }
 
 const SignIn: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
+  console.count(`SignIn: render`);
   const classes = useStyles();
 
   const { onSubmit, mirror, onChange } = props;
@@ -64,7 +65,13 @@ const SignIn: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
             onChange={onChange}
             value={mirror}
           />
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
             Connect
           </Button>
         </form>

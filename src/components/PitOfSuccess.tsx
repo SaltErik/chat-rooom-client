@@ -9,6 +9,7 @@ interface Props {}
 
 const PitOfSuccess: React.FunctionComponent<Props> = (): JSX.Element => {
   console.count(`PitOfSuccess: render`);
+
   return <Redirect to={splashPage} />;
 };
 

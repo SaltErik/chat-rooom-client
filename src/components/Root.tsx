@@ -7,6 +7,7 @@ interface Props {}
 
 const Root: React.FunctionComponent<Props> = (): JSX.Element => {
   console.count(`Root: render`);
+
   return (
     <BrowserRouter>
       <Switch>

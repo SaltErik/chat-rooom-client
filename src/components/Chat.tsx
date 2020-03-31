@@ -1,10 +1,10 @@
-import TextField from "@material-ui/core/TextField";
 import React from "react";
 import { Inbox } from "../typings/declarations";
-import { MessageBox } from "./MessageBox";
+import { Conversation } from "./Conversation";
+import { TextInput } from "./TextInput";
 
 interface Props {
-  onSubmit: (event: React.KeyboardEvent) => void;
+  onKeyDown: (event: React.KeyboardEvent) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   messages: Inbox.ChatMessage[];
   username: string;
@@ -13,22 +13,12 @@ interface Props {
 
 const Chat: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
   console.count(`Chat: render`);
-  const { onSubmit, onChange, messages, username, mirror } = props;
+  const { onKeyDown, onChange, messages, username, mirror } = props;
 
   return (
     <>
-      <MessageBox messages={messages} username={username} />
-      <TextField
-        fullWidth
-        autoFocus
-        multiline
-        margin="normal"
-        label="Message"
-        rows="4"
-        value={mirror}
-        onChange={onChange}
-        onKeyDown={onSubmit}
-      />
+      <Conversation messages={messages} username={username} />
+      <TextInput mirror={mirror} onChange={onChange} onKeyDown={onKeyDown} />
     </>
   );
 };
