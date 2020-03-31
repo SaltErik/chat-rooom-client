@@ -1,7 +1,5 @@
 {
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "compilerOptions": {
     "incremental": false,
     "target": "esnext",
@@ -25,13 +23,9 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "preserveConstEnums": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true
