@@ -6,14 +6,14 @@ import { MessageBox } from "./MessageBox";
 interface Props {
   onSubmit: (event: React.KeyboardEvent) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  messages: Inbox.Message[];
+  messages: Inbox.ChatMessage[];
   username: string;
-  inputfield: string;
+  mirror: string;
 }
 
 const Chat: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
   console.count(`Chat: render`);
-  const { onSubmit, onChange, messages, username, inputfield } = props;
+  const { onSubmit, onChange, messages, username, mirror } = props;
 
   return (
     <>
@@ -25,7 +25,7 @@ const Chat: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
         margin="normal"
         label="Message"
         rows="4"
-        value={inputfield}
+        value={mirror}
         onChange={onChange}
         onKeyDown={onSubmit}
       />

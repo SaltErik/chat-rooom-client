@@ -3,7 +3,7 @@ import { Inbox } from "../typings/declarations";
 import { Message } from "./Message";
 
 interface Props {
-  messages: Inbox.Message[];
+  messages: Inbox.ChatMessage[];
   username: string;
 }
 
@@ -15,6 +15,7 @@ const MessageBox: React.FunctionComponent<Props> = (props: Props): JSX.Element =
     <div className="conversation">
       <ul>
         {messages.map((message) => {
+          console.log(message);
           const { text, author, UUID } = message;
           const displayName = username === author ? `You` : author;
           return <Message key={UUID} text={text} author={displayName} />;

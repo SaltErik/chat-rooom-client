@@ -1,10 +1,9 @@
 import React from "react";
-import { Inbox, Message, Outbox } from "../typings/declarations";
+import { Inbox, Outbox } from "../typings/declarations";
 import { nay } from "../utils/nay";
 import { yay } from "../utils/yay";
 import { Chat } from "./Chat";
 import { SignIn } from "./SignIn";
-import { say } from "../utils/say";
 
 interface Props {}
 
@@ -16,8 +15,9 @@ interface State {
   };
   ws: WebSocket | null;
   username: string;
-  inputfield: string;
-  messages: Inbox.Message[];
+  chatField: string;
+  usernameField: string;
+  messages: Inbox.ChatMessage[];
   isUsernameAccepted: boolean;
 }
 
@@ -30,7 +30,8 @@ class Application extends React.PureComponent<Props, State> {
     },
     ws: null,
     username: "",
-    inputfield: "",
+    chatField: "",
+    usernameField: "",
     messages: [],
     isUsernameAccepted: false,
   };
@@ -38,10 +39,10 @@ class Application extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     console.count(`${this.constructor.name}: constructor`);
-    this.establishServerConnection = this.establishServerConnection.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangingChatMessageField = this.handleChangingChatMessageField.bind(this);
     this.handleSubmitChatMessage = this.handleSubmitChatMessage.bind(this);
     this.handleSubmitUsername = this.handleSubmitUsername.bind(this);
+    this.handleChangingUsernameField = this.handleChangingUsernameField.bind(this);
   }
 
   componentDidMount(this: Application): void {
@@ -81,9 +82,9 @@ class Application extends React.PureComponent<Props, State> {
     return `${protocol}${domain}:${port}`;
   }
 
-  deserialize(this: Application, message: string): Inbox.Message {
+  deserialize(this: Application, message: string): Inbox.ChatMessage {
     console.count(`${this.constructor.name}: deserialize`);
-    let deserialized: Inbox.Message = {
+    let deserialized: Inbox.ChatMessage = {
       text: "ERROR",
       author: "ERROR",
       UUID: "ERROR",
@@ -97,11 +98,19 @@ class Application extends React.PureComponent<Props, State> {
     return deserialized;
   }
 
-  handleChange(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+  handleChangingChatMessageField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
     console.count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
-      inputfield: event.target.value,
+      chatField: event.target.value,
+    }));
+  }
+
+  handleChangingUsernameField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+    console.count(`${this.constructor.name}: handleChange`);
+    event.persist();
+    this.setState(() => ({
+      usernameField: event.target.value,
     }));
   }
 
@@ -137,14 +146,14 @@ class Application extends React.PureComponent<Props, State> {
     console.count(`${this.constructor.name}: handleSubmitChatMessage`);
     if (event.key === "Enter") {
       event.preventDefault();
-      const { inputfield, username } = this.state;
-      const message: Outbox.Message = {
-        text: inputfield,
+      const { chatField, username } = this.state;
+      const message: Outbox.ChatMessage = {
+        text: chatField,
         author: username,
       };
       this.transmit(message);
       this.setState(() => ({
-        inputfield: "",
+        chatField: "",
       }));
     }
   }
@@ -152,18 +161,14 @@ class Application extends React.PureComponent<Props, State> {
   handleSubmitUsername(this: Application, event: React.FormEvent<HTMLFormElement>): void {
     console.count(`${this.constructor.name}: handleSubmitUsername`);
     event.preventDefault();
-    this.setState(() => ({
-      inputfield: "",
-    }), () => this.requestUsername());
-  }
-
-  requestUsername(this: Application): void {
-    console.count(`${this.constructor.name}: requestUsername`);
-    const { inputfield } = this.state;
+    const { usernameField } = this.state;
     const desiredUsername: Outbox.Username = {
-      username: inputfield,
+      username: usernameField,
     };
     this.transmit(desiredUsername);
+    this.setState(() => ({
+      usernameField: "",
+    }));
   }
 
   handleUsernameAccepted(this: Application, message: Inbox.Username): void {
@@ -176,21 +181,23 @@ class Application extends React.PureComponent<Props, State> {
   recieve(this: Application, event: MessageEvent): void {
     console.count(`${this.constructor.name}: recieve`);
     const message: Inbox.Message = this.deserialize(event.data);
-    this.setState((prevState) => ({
-      messages: [...prevState.messages, message],
-    }), () => {
-      say(`Checking message type...`);
-      console.log(message);
-      if ("isUsernameAccepted" in message) {
-        yay(`Message was of type Username.`);
-        this.handleUsernameAccepted(message);
-      } else {
-        nay(`Message was not of type Username.`);
+    const { isUsernameAccepted } = this.state;
+    if (isUsernameAccepted) {
+      yay(`Username is accepted! Skipping check...`);
+      return this.setState((prevState) => ({
+        messages: [...prevState.messages, message],
+      }));
+    }
+    nay(`Username is not yet accepted! Performing check...`);
+    if (`isUsernameAccepted` in message) {
+      yay(`Message was of type Username.`);
+      if ((message as Inbox.Username).isUsernameAccepted) {
+        this.handleUsernameAccepted(message as Inbox.Username);
       }
-    });
+    }
   }
 
-  transmit(this: Application, message: Message): void {
+  transmit(this: Application, message: Outbox.Message): void {
     console.count(`${this.constructor.name}: transmit`);
     const { ws } = this.state;
     if (ws?.readyState === 1) {
@@ -198,7 +205,7 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  serialize(this: Application, message: Message): string {
+  serialize(this: Application, message: Outbox.Message): string {
     console.count(`${this.constructor.name}: serialize`);
     let serialized = "";
     try {
@@ -213,17 +220,17 @@ class Application extends React.PureComponent<Props, State> {
 
   render(this: Application): JSX.Element {
     console.count(`${this.constructor.name}: render`);
-    const { messages, username, inputfield, isUsernameAccepted } = this.state;
+    const { messages, username, chatField, usernameField, isUsernameAccepted } = this.state;
 
     if (isUsernameAccepted) {
       return (
         <>
           <Chat
-            onChange={this.handleChange}
+            onChange={this.handleChangingChatMessageField}
             onSubmit={this.handleSubmitChatMessage}
             messages={messages}
             username={username}
-            inputfield={inputfield}
+            mirror={chatField}
           />
         </>
       );
@@ -231,7 +238,11 @@ class Application extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <SignIn onSubmit={this.handleSubmitUsername} />
+        <SignIn
+          onSubmit={this.handleSubmitUsername}
+          mirror={usernameField}
+          onChange={this.handleChangingUsernameField}
+        />
       </>
     );
   }

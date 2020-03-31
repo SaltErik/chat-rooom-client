@@ -10,10 +10,6 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import React from "react";
 import { Copyright } from "./Copyright";
 
-interface Props {
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-}
-
 const useStyles = makeStyles((theme: any) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -34,10 +30,16 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
+interface Props {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  mirror: string;
+}
+
 const SignIn: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
   const classes = useStyles();
 
-  const { onSubmit } = props;
+  const { onSubmit, mirror, onChange } = props;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,6 +61,8 @@ const SignIn: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
             label="Username"
             name="username"
             autoFocus
+            onChange={onChange}
+            value={mirror}
           />
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Connect
