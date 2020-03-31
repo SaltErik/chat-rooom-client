@@ -4,6 +4,7 @@ import { nay } from "../utils/nay";
 import { yay } from "../utils/yay";
 import { Chat } from "./Chat";
 import { SignIn } from "./SignIn";
+import { say } from "../utils/say";
 
 interface Props {}
 
@@ -50,7 +51,6 @@ class Application extends React.PureComponent<Props, State> {
 
   componentDidUpdate(this: Application): void {
     console.count(`${this.constructor.name}: componentDidUpdate`);
-    console.log(this.state);
   }
 
   componentWillUnmount(this: Application): void {
@@ -92,7 +92,7 @@ class Application extends React.PureComponent<Props, State> {
       deserialized = JSON.parse(message);
     } catch (error) {
       nay(`Deserialization failed!`);
-      console.warn(error);
+      console.error(error);
     }
     return deserialized;
   }
@@ -107,7 +107,6 @@ class Application extends React.PureComponent<Props, State> {
 
   handleConnectionClose(this: Application, event: CloseEvent): void {
     console.count(`${this.constructor.name}: handleConnectionClose`);
-    console.log(event);
     const { code, reason, wasClean } = event;
     if (wasClean) {
       yay(`Connection closed cleanly.`);
@@ -122,7 +121,8 @@ class Application extends React.PureComponent<Props, State> {
 
   handleConnectionError(this: Application, event: Event): void {
     console.count(`${this.constructor.name}: handleConnectionError`);
-    console.log(event);
+    nay(`A connection error occured!`);
+    console.error(event);
   }
 
   handleConnectionOpen(this: Application, event: Event): void {
@@ -152,7 +152,6 @@ class Application extends React.PureComponent<Props, State> {
   handleSubmitUsername(this: Application, event: React.FormEvent<HTMLFormElement>): void {
     console.count(`${this.constructor.name}: handleSubmitUsername`);
     event.preventDefault();
-    console.log(event);
     this.setState(() => ({
       inputfield: "",
     }), () => this.requestUsername());
@@ -180,8 +179,13 @@ class Application extends React.PureComponent<Props, State> {
     this.setState((prevState) => ({
       messages: [...prevState.messages, message],
     }), () => {
+      say(`Checking message type...`);
+      console.log(message);
       if ("isUsernameAccepted" in message) {
+        yay(`Message was of type Username.`);
         this.handleUsernameAccepted(message);
+      } else {
+        nay(`Message was not of type Username.`);
       }
     });
   }
