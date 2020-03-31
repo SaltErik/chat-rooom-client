@@ -94,8 +94,13 @@ class Application extends React.PureComponent<Props, State> {
     try {
       deserialized = JSON.parse(message);
     } catch (error) {
-      nay(`Deserialization failed!`);
-      console.error(error);
+      if (error instanceof SyntaxError) {
+        nay(`Deserialization failed!`);
+        console.error(error);
+      } else {
+        nay(`Rethrowing unexpected error...`);
+        throw error;
+      }
     } finally {
       return deserialized;
     }
@@ -254,7 +259,13 @@ class Application extends React.PureComponent<Props, State> {
     try {
       serialized = JSON.stringify(message);
     } catch (error) {
-      nay(`Serialization failed!`);
+      if (error instanceof SyntaxError) {
+        nay(`Serialization failed!`);
+        console.error(error);
+      } else {
+        nay(`Rethrowing unexpected error...`);
+        throw error;
+      }
     } finally {
       return serialized;
     }
