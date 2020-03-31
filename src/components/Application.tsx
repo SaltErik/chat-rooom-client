@@ -95,6 +95,7 @@ class Application extends React.PureComponent<Props, State> {
       deserialized = JSON.parse(message);
     } catch (error) {
       nay(`Deserialization failed!`);
+      console.error(error);
     } finally {
       return deserialized;
     }
