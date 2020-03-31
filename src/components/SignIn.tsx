@@ -14,7 +14,7 @@ interface Props {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
