@@ -4,7 +4,7 @@ const style = [
   `font-size: 1em`
 ].join(`;`);
 
-/** Convenience function for console-logging successes, as indicated by the red text, and the "[-]" symbol. */
+/** Convenience function for console-logging successes, as indicated by the green text and "[+]" symbol. */
 const yay = (text: string) => {
   console.log(`%c[+] ${text}`, style);
 };

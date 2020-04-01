@@ -3,7 +3,7 @@ const style = [
   `font-size: 1em`
 ].join(`;`);
 
-/** Convenience function for console-logging failures, as indicated by the red text, and the "[!]" symbol. */
+/** Convenience function for console-logging in general, as indicated by the white text and "[*]" symbol. */
 const say = (text: string) => {
   console.log(`%c[*] ${text}`, style);
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { Inbox, Outbox } from "../typings/declarations";
 import { nay } from "../utils/nay";
+import { rethrow } from "../utils/rethrow";
 import { isChat, isUsername } from "../utils/typeguards";
 import { yay } from "../utils/yay";
 import { Chat } from "./Chat";
@@ -70,7 +71,8 @@ class Application extends React.PureComponent<Props, State> {
       ws.onerror = this.handleConnectionError.bind(this);
       ws.onmessage = this.recieve.bind(this);
       ws.onopen = this.handleConnectionOpen.bind(this);
-    } catch {
+    } catch (error) {
+      nay(`WebSocket instantiation failed!`, error);
       ws = null;
     } finally {
       this.setState(() => ({
@@ -95,13 +97,7 @@ class Application extends React.PureComponent<Props, State> {
     try {
       deserialized = JSON.parse(message);
     } catch (error) {
-      if (error instanceof SyntaxError) {
-        nay(`Deserialization failed!`);
-        console.error(error);
-      } else {
-        nay(`Rethrowing unexpected error...`);
-        throw error;
-      }
+      error instanceof SyntaxError ? nay(`Deserialization failed!`, error) : rethrow(error);
     } finally {
       return deserialized;
     }
@@ -258,13 +254,7 @@ class Application extends React.PureComponent<Props, State> {
     try {
       serialized = JSON.stringify(message);
     } catch (error) {
-      if (error instanceof SyntaxError) {
-        nay(`Serialization failed!`);
-        console.error(error);
-      } else {
-        nay(`Rethrowing unexpected error...`);
-        throw error;
-      }
+      error instanceof SyntaxError ? nay(`Serialization failed!`, error) : rethrow(error);
     } finally {
       return serialized;
     }
