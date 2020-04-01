@@ -1,3 +1,4 @@
+import { count, log } from "console";
 import React from "react";
 import { Inbox } from "../typings/declarations";
 import { Message } from "./Message";
@@ -8,13 +9,13 @@ interface Props {
 }
 
 const Conversation: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
-  console.count(`Conversation: render`);
+  count(`Conversation: render`);
   const { messages, username } = props;
 
   return (
     <ul>
       {messages.map((message) => {
-        console.log(message);
+        log(message);
         const { text, author, UUID } = message;
         const displayName = username === author ? `You` : author;
         return <Message key={UUID} text={text} author={displayName} />;

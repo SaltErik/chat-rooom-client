@@ -7,6 +7,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { count } from "console";
 import React from "react";
 import { Copyright } from "./Copyright";
 
@@ -37,7 +38,7 @@ interface Props {
 }
 
 const SignIn: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
-  console.count(`SignIn: render`);
+  count(`SignIn: render`);
   const classes = useStyles();
 
   const { onSubmit, mirror, onChange } = props;

@@ -1,3 +1,5 @@
+import { log } from "console";
+
 const style = [
   `font-weight: bold`,
   `font-size: 1em`
@@ -5,7 +7,7 @@ const style = [
 
 /** Convenience function for console-logging in general, as indicated by the white text and "[*]" symbol. */
 const say = (text: string) => {
-  console.log(`%c[*] ${text}`, style);
+  log(`%c[*] ${text}`, style);
 };
 
 export { say };

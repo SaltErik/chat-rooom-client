@@ -1,3 +1,4 @@
+import { count } from "console";
 import React from "react";
 import { Redirect } from "react-router-dom";
 
@@ -8,7 +9,7 @@ const splashPage = {
 interface Props {}
 
 const PitOfSuccess: React.FunctionComponent<Props> = (): JSX.Element => {
-  console.count(`PitOfSuccess: render`);
+  count(`PitOfSuccess: render`);
 
   return <Redirect to={splashPage} />;
 };

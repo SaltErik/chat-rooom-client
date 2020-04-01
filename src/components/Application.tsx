@@ -1,3 +1,4 @@
+import { count, log } from "console";
 import React from "react";
 import { Inbox, Outbox } from "../typings/declarations";
 import { nay } from "../utils/nay";
@@ -42,7 +43,7 @@ class Application extends React.PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    console.count(`${this.constructor.name}: constructor`);
+    count(`${this.constructor.name}: constructor`);
     this.handleChangingChatField = this.handleChangingChatField.bind(this);
     this.handleChangingUsernameField = this.handleChangingUsernameField.bind(this);
     this.submitChatMessage = this.submitChatMessage.bind(this);
@@ -50,20 +51,20 @@ class Application extends React.PureComponent<Props, State> {
   }
 
   componentDidMount(this: Application): void {
-    console.count(`${this.constructor.name}: componentDidMount`);
+    count(`${this.constructor.name}: componentDidMount`);
     this.establishServerConnection();
   }
 
   componentDidUpdate(this: Application): void {
-    console.count(`${this.constructor.name}: componentDidUpdate`);
+    count(`${this.constructor.name}: componentDidUpdate`);
   }
 
   componentWillUnmount(this: Application): void {
-    console.count(`${this.constructor.name}: componentWillUnmount`);
+    count(`${this.constructor.name}: componentWillUnmount`);
   }
 
-  establishServerConnection(this: Application): void {
-    console.count(`${this.constructor.name}: arrangeWebSocket`);
+  private establishServerConnection(this: Application): void {
+    count(`${this.constructor.name}: arrangeWebSocket`);
     let ws: WebSocket | null = null;
     try {
       ws = new WebSocket(this.deriveServerURL());
@@ -81,14 +82,14 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  deriveServerURL(this: Application): string {
-    console.count(`${this.constructor.name}: deriveServerURL`);
+  private deriveServerURL(this: Application): string {
+    count(`${this.constructor.name}: deriveServerURL`);
     const { protocol, domain, port } = this.state.serverSettings;
     return `${protocol}${domain}:${port}`;
   }
 
-  deserialize(this: Application, message: string): Inbox.ChatMessage {
-    console.count(`${this.constructor.name}: deserialize`);
+  private deserialize(this: Application, message: string): Inbox.ChatMessage {
+    count(`${this.constructor.name}: deserialize`);
     let deserialized: Inbox.ChatMessage = {
       text: "",
       author: "",
@@ -103,24 +104,24 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  handleChangingChatField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
-    console.count(`${this.constructor.name}: handleChange`);
+  private handleChangingChatField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+    count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
       chatField: event.target.value,
     }));
   }
 
-  handleChangingUsernameField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
-    console.count(`${this.constructor.name}: handleChange`);
+  private handleChangingUsernameField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+    count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
       usernameField: event.target.value,
     }));
   }
 
-  handleConnectionClose(this: Application, event: CloseEvent): void {
-    console.count(`${this.constructor.name}: handleConnectionClose`);
+  private handleConnectionClose(this: Application, event: CloseEvent): void {
+    count(`${this.constructor.name}: handleConnectionClose`);
     const { code, reason, wasClean } = event;
     if (wasClean) {
       yay(`Connection closed cleanly.`);
@@ -133,22 +134,22 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  handleConnectionError(this: Application, event: Event): void {
-    console.count(`${this.constructor.name}: handleConnectionError`);
+  private handleConnectionError(this: Application, event: Event): void {
+    count(`${this.constructor.name}: handleConnectionError`);
     nay(`A connection error occured!`);
     console.warn(event);
   }
 
-  handleConnectionOpen(this: Application, event: Event): void {
-    console.count(`${this.constructor.name}: handleConnectionOpen`);
+  private handleConnectionOpen(this: Application, event: Event): void {
+    count(`${this.constructor.name}: handleConnectionOpen`);
     const { url } = event.srcElement as any;
     if (url) {
       yay(`Connection established to ${url}!`);
     }
   }
 
-  submitChatMessage(this: Application, event: React.KeyboardEvent): void {
-    console.count(`${this.constructor.name}: submitChatMessage`);
+  private submitChatMessage(this: Application, event: React.KeyboardEvent): void {
+    count(`${this.constructor.name}: submitChatMessage`);
     if (event.key === "Enter") {
       event.preventDefault();
       const { chatField, username } = this.state;
@@ -163,8 +164,8 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  submitUsernameRequest(this: Application, event: React.FormEvent<HTMLFormElement>): void {
-    console.count(`${this.constructor.name}: submitUsernameRequest`);
+  private submitUsernameRequest(this: Application, event: React.FormEvent<HTMLFormElement>): void {
+    count(`${this.constructor.name}: submitUsernameRequest`);
     event.preventDefault();
     this.setState(
       (prevState) => ({
@@ -183,8 +184,8 @@ class Application extends React.PureComponent<Props, State> {
     }));
   }
 
-  handleIncomingUsername(this: Application, message: Inbox.Username): void {
-    console.count(`${this.constructor.name}: handleIncomingUsername`);
+  private handleIncomingUsername(this: Application, message: Inbox.Username): void {
+    count(`${this.constructor.name}: handleIncomingUsername`);
     const { username, pendingUsername } = this.state;
     if (!username) {
       if (pendingUsername) {
@@ -197,8 +198,8 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  handleOutgoingUsername(this: Application, desiredUsername: Outbox.Username): void {
-    console.count(`${this.constructor.name}: handleOutgoingUsername`);
+  private handleOutgoingUsername(this: Application, desiredUsername: Outbox.Username): void {
+    count(`${this.constructor.name}: handleOutgoingUsername`);
     const { isUsernameAccepted } = this.state;
     if (isUsernameAccepted) {
       return nay(`Username is already accepted! This should not be sent, or even asked for...`);
@@ -207,10 +208,10 @@ class Application extends React.PureComponent<Props, State> {
     this.transmit(serialized);
   }
 
-  recieve(this: Application, event: MessageEvent): void {
-    console.count(`${this.constructor.name}: recieve`);
+  private recieve(this: Application, event: MessageEvent): void {
+    count(`${this.constructor.name}: recieve`);
     const message: Inbox.Message = this.deserialize(event.data);
-    console.log(message);
+    log(message);
     if (isChat(message)) {
       return this.handleIncomingChatMessage(message);
     }
@@ -218,11 +219,11 @@ class Application extends React.PureComponent<Props, State> {
       return this.handleIncomingUsername(message);
     }
     nay(`UH-OH! Unknown message type recieved!`);
-    console.log(message);
+    log(message);
   }
 
-  handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage): void {
-    console.count(`${this.constructor.name}: handleIncomingChatMessage`);
+  private handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage): void {
+    count(`${this.constructor.name}: handleIncomingChatMessage`);
     if (!message.text) nay(`INCOMING: Text field was empty!`);
     if (!message.author) nay(`INCOMING: Author field was empty!`);
     if (!message.UUID) nay(`INCOMING: UUID field was empty!`);
@@ -232,24 +233,24 @@ class Application extends React.PureComponent<Props, State> {
     }));
   }
 
-  handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage): void {
-    console.count(`${this.constructor.name}: handleOutgoingChatMessage`);
+  private handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage): void {
+    count(`${this.constructor.name}: handleOutgoingChatMessage`);
     if (!message.text) nay(`OUTGOING: Text field was empty!`);
     if (!message.author) nay(`OUTGOING: Author field was empty!`);
     const serialized: string = this.serialize(message);
     this.transmit(serialized);
   }
 
-  transmit(this: Application, message: string): void {
-    console.count(`${this.constructor.name}: transmit`);
+  private transmit(this: Application, message: string): void {
+    count(`${this.constructor.name}: transmit`);
     const { ws } = this.state;
     if (ws?.readyState === 1) {
       ws.send(message);
     }
   }
 
-  serialize(this: Application, message: Outbox.Message): string {
-    console.count(`${this.constructor.name}: serialize`);
+  private serialize(this: Application, message: Outbox.Message): string {
+    count(`${this.constructor.name}: serialize`);
     let serialized = "";
     try {
       serialized = JSON.stringify(message);
@@ -261,7 +262,7 @@ class Application extends React.PureComponent<Props, State> {
   }
 
   render(this: Application): JSX.Element {
-    console.count(`${this.constructor.name}: render`);
+    count(`${this.constructor.name}: render`);
     const { messages, username, chatField, usernameField, isUsernameAccepted } = this.state;
 
     if (isUsernameAccepted) {

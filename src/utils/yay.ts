@@ -1,3 +1,5 @@
+import { log } from "console";
+
 const style = [
   `font-weight: bold`,
   `color: #669900`,
@@ -6,7 +8,7 @@ const style = [
 
 /** Convenience function for console-logging successes, as indicated by the green text and "[+]" symbol. */
 const yay = (text: string) => {
-  console.log(`%c[+] ${text}`, style);
+  log(`%c[+] ${text}`, style);
 };
 
 export { yay };

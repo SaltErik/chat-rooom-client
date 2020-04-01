@@ -1,4 +1,5 @@
 import TextField from "@material-ui/core/TextField";
+import { count } from "console";
 import React from "react";
 import "../styles/TextInput.css";
 
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const TextInput: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
-  console.count(`TextInput: render`);
+  count(`TextInput: render`);
   const { onKeyDown, onChange, mirror } = props;
 
   return (

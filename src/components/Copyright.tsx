@@ -1,11 +1,12 @@
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
+import { count } from "console";
 import React from "react";
 
 const year = new Date().getFullYear();
 
 const Copyright: React.FunctionComponent = (): JSX.Element => {
-  console.count(`Copyright: render`);
+  count(`Copyright: render`);
 
   return (
     <Typography variant="body2" color="textSecondary" align="center">

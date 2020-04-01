@@ -1,3 +1,4 @@
+import { count } from "console";
 import React from "react";
 import { Inbox } from "../typings/declarations";
 import { Conversation } from "./Conversation";
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const Chat: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
-  console.count(`Chat: render`);
+  count(`Chat: render`);
   const { onKeyDown, onChange, messages, username, mirror } = props;
 
   return (

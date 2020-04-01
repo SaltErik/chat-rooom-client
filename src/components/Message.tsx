@@ -1,3 +1,4 @@
+import { count } from "console";
 import React from "react";
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
 }
 
 const Message: React.FunctionComponent<Props> = (props: Props) => {
-  console.count(`Message: render`);
+  count(`Message: render`);
   const { text, author } = props;
 
   return <li>{`${author}: ${text}`}</li>;
