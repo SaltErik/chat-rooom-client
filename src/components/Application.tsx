@@ -1,6 +1,7 @@
 import React from "react";
 import { Inbox, Outbox } from "../typings/declarations";
 import { nay } from "../utils/nay";
+import { isChat, isUsername } from "../utils/typeguards";
 import { yay } from "../utils/yay";
 import { Chat } from "./Chat";
 import { SignIn } from "./SignIn";
@@ -167,7 +168,7 @@ class Application extends React.PureComponent<Props, State> {
   }
 
   submitUsernameRequest(this: Application, event: React.FormEvent<HTMLFormElement>): void {
-    console.count(`${this.constructor.name}: submitUsername`);
+    console.count(`${this.constructor.name}: submitUsernameRequest`);
     event.preventDefault();
     this.setState(
       (prevState) => ({
@@ -187,7 +188,7 @@ class Application extends React.PureComponent<Props, State> {
   }
 
   handleIncomingUsername(this: Application, message: Inbox.Username): void {
-    console.count(`${this.constructor.name}: requestUsername`);
+    console.count(`${this.constructor.name}: handleIncomingUsername`);
     const { username, pendingUsername } = this.state;
     if (!username) {
       if (pendingUsername) {
@@ -206,7 +207,6 @@ class Application extends React.PureComponent<Props, State> {
     if (isUsernameAccepted) {
       return nay(`Username is already accepted! This should not be sent, or even asked for...`);
     }
-
     const serialized: string = this.serialize(desiredUsername);
     this.transmit(serialized);
   }
@@ -215,18 +215,17 @@ class Application extends React.PureComponent<Props, State> {
     console.count(`${this.constructor.name}: recieve`);
     const message: Inbox.Message = this.deserialize(event.data);
     console.log(message);
-    // TODO: Convert to a switch case here!
-    if (`text` in message) {
+    if (isChat(message)) {
       return this.handleIncomingChatMessage(message);
     }
-    if (`isUsernameAccepted` in message) {
+    if (isUsername(message)) {
       return this.handleIncomingUsername(message);
     }
     nay(`UH-OH! Unknown message type recieved!`);
     console.log(message);
   }
 
-  handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage) {
+  handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage): void {
     console.count(`${this.constructor.name}: handleIncomingChatMessage`);
     if (!message.text) nay(`INCOMING: Text field was empty!`);
     if (!message.author) nay(`INCOMING: Author field was empty!`);
@@ -237,7 +236,7 @@ class Application extends React.PureComponent<Props, State> {
     }));
   }
 
-  handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage) {
+  handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage): void {
     console.count(`${this.constructor.name}: handleOutgoingChatMessage`);
     if (!message.text) nay(`OUTGOING: Text field was empty!`);
     if (!message.author) nay(`OUTGOING: Author field was empty!`);
