@@ -1,12 +1,12 @@
-import { count } from "console";
 import React from "react";
+import { count } from "../utils/console";
 
 interface Props {
   text: string;
   author: string;
 }
 
-const Message: React.FunctionComponent<Props> = (props: Props) => {
+const Message: React.FC<Props> = (props: Props) => {
   count(`Message: render`);
   const { text, author } = props;
 

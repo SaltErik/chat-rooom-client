@@ -7,8 +7,8 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { count } from "console";
 import React from "react";
+import { count } from "../utils/console";
 import { Copyright } from "./Copyright";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -37,7 +37,7 @@ interface Props {
   mirror: string;
 }
 
-const SignIn: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
+const SignIn: React.FC<Props> = (props: Props): JSX.Element => {
   count(`SignIn: render`);
   const classes = useStyles();
 

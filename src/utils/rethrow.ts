@@ -6,4 +6,3 @@ const rethrow = (error: Error): never => {
 };
 
 export { rethrow };
-

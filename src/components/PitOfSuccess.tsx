@@ -1,6 +1,6 @@
-import { count } from "console";
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { count } from "../utils/console";
 
 const splashPage = {
   pathname: "/join",
@@ -8,7 +8,7 @@ const splashPage = {
 
 interface Props {}
 
-const PitOfSuccess: React.FunctionComponent<Props> = (): JSX.Element => {
+const PitOfSuccess: React.FC<Props> = (): JSX.Element => {
   count(`PitOfSuccess: render`);
 
   return <Redirect to={splashPage} />;

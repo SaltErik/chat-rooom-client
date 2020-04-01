@@ -1,12 +1,12 @@
-import { count } from "console";
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { count } from "../utils/console";
 import { Application } from "./Application";
 import { PitOfSuccess } from "./PitOfSuccess";
 
 interface Props {}
 
-const Root: React.FunctionComponent<Props> = (): JSX.Element => {
+const Root: React.FC<Props> = (): JSX.Element => {
   count(`Root: render`);
 
   return (

@@ -1,11 +1,11 @@
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-import { count } from "console";
 import React from "react";
+import { count } from "../utils/console";
 
 const year = new Date().getFullYear();
 
-const Copyright: React.FunctionComponent = (): JSX.Element => {
+const Copyright: React.FC = (): JSX.Element => {
   count(`Copyright: render`);
 
   return (

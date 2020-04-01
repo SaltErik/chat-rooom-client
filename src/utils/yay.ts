@@ -1,9 +1,9 @@
-import { log } from "console";
+import { log } from "./console";
 
 const style = [
   `font-weight: bold`,
   `color: #669900`,
-  `font-size: 1em`
+  `font-size: 1em`,
 ].join(`;`);
 
 /** Convenience function for console-logging successes, as indicated by the green text and "[+]" symbol. */

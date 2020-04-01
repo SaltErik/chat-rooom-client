@@ -9,3 +9,4 @@ const isUsername = (message: Inbox.Message): message is Inbox.Username => {
 };
 
 export { isChat, isUsername };
+

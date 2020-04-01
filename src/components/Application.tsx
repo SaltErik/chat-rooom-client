@@ -1,6 +1,6 @@
-import { count, log } from "console";
 import React from "react";
 import { Inbox, Outbox } from "../typings/declarations";
+import { count, log } from "../utils/console";
 import { nay } from "../utils/nay";
 import { rethrow } from "../utils/rethrow";
 import { isChat, isUsername } from "../utils/typeguards";
