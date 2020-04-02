@@ -263,7 +263,7 @@ class Application extends React.PureComponent<Props, State> {
     try {
       serialized = JSON.stringify(message);
     } catch (error) {
-      error instanceof SyntaxError ? nay(`Serialization failed!`, error) : rethrow(error);
+      error instanceof TypeError ? nay(`Serialization failed!`, error) : rethrow(error);
     } finally {
       return serialized;
     }
