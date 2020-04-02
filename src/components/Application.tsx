@@ -3,7 +3,7 @@ import { Inbox, Outbox } from "../typings/declarations";
 import { count, log } from "../utils/console";
 import { nay } from "../utils/nay";
 import { rethrow } from "../utils/rethrow";
-import { isChat, isUsername } from "../utils/typeguards";
+import { isChat, isUsername } from "../utils/typePredicates";
 import { yay } from "../utils/yay";
 import { Chat } from "./Chat";
 import { SignIn } from "./SignIn";
@@ -70,7 +70,7 @@ class Application extends React.PureComponent<Props, State> {
       ws = new WebSocket(this.deriveServerURL());
       ws.onclose = this.handleConnectionClose.bind(this);
       ws.onerror = this.handleConnectionError.bind(this);
-      ws.onmessage = this.recieve.bind(this);
+      ws.onmessage = this.receive.bind(this);
       ws.onopen = this.handleConnectionOpen.bind(this);
     } catch (error) {
       nay(`WebSocket instantiation failed!`, error);
@@ -208,8 +208,8 @@ class Application extends React.PureComponent<Props, State> {
     this.transmit(serialized);
   }
 
-  private recieve(this: Application, event: MessageEvent): void {
-    count(`${this.constructor.name}: recieve`);
+  private receive(this: Application, event: MessageEvent): void {
+    count(`${this.constructor.name}: receive`);
     const message: Inbox.Message = this.deserialize(event.data);
     log(message);
     if (isChat(message)) {
