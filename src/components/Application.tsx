@@ -168,8 +168,8 @@ class Application extends React.PureComponent<Props, State> {
     count(`${this.constructor.name}: submitUsernameRequest`);
     event.preventDefault();
     this.setState(
-      (prevState) => ({
-        pendingUsername: prevState.usernameField,
+      (state) => ({
+        pendingUsername: state.usernameField,
       }),
       () => {
         const { pendingUsername } = this.state;
@@ -189,11 +189,18 @@ class Application extends React.PureComponent<Props, State> {
     const { username, pendingUsername } = this.state;
     if (!username) {
       if (pendingUsername) {
-        this.setState(() => ({
-          username: pendingUsername,
-          isUsernameAccepted: message.isUsernameAccepted,
-          pendingUsername: "",
-        }));
+        if (message.isUsernameAccepted) {
+          this.setState(() => ({
+            username: pendingUsername,
+            isUsernameAccepted: true,
+            pendingUsername: "",
+          }));
+        } else {
+          this.setState(() => ({
+            isUsernameAccepted: false,
+            pendingUsername: "",
+          }));
+        }
       }
     }
   }
@@ -228,8 +235,8 @@ class Application extends React.PureComponent<Props, State> {
     if (!message.author) nay(`INCOMING: Author field was empty!`);
     if (!message.UUID) nay(`INCOMING: UUID field was empty!`);
     yay(`We got this!`);
-    this.setState((prevState) => ({
-      messages: [...prevState.messages, message],
+    this.setState((state) => ({
+      messages: [...state.messages, message],
     }));
   }
 
