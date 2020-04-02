@@ -68,7 +68,6 @@ class Application extends React.PureComponent<Props, State> {
     let ws: WebSocket | null = null;
     try {
       ws = new WebSocket(this.deriveServerURL());
-      console.log(ws);
       ws.onclose = this.handleConnectionClose.bind(this);
       ws.onerror = this.handleConnectionError.bind(this);
       ws.onmessage = this.receive.bind(this);
