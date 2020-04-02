@@ -1,15 +1,15 @@
 import TextField from "@material-ui/core/TextField";
-import React from "react";
+import React, { ChangeEvent, FC, KeyboardEvent, memo } from "react";
 import "../styles/TextInput.css";
 import { count } from "../utils/console";
 
 interface Props {
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown: (event: React.KeyboardEvent) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (event: KeyboardEvent) => void;
   mirror: string;
 }
 
-const TextInput: React.FC<Props> = (props: Props): JSX.Element => {
+const TextInput: FC<Props> = (props: Props): JSX.Element => {
   count(`TextInput: render`);
   const { onKeyDown, onChange, mirror } = props;
 
@@ -29,6 +29,6 @@ const TextInput: React.FC<Props> = (props: Props): JSX.Element => {
   );
 };
 
-const memoized = React.memo<Props>(TextInput);
+const memoized = memo<Props>(TextInput);
 
 export { memoized as TextInput };

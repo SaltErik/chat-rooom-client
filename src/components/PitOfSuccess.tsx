@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, memo } from "react";
 import { Redirect } from "react-router-dom";
 import { count } from "../utils/console";
 
@@ -8,12 +8,12 @@ const splashPage = {
 
 interface Props {}
 
-const PitOfSuccess: React.FC<Props> = (): JSX.Element => {
+const PitOfSuccess: FC<Props> = (): JSX.Element => {
   count(`PitOfSuccess: render`);
 
   return <Redirect to={splashPage} />;
 };
 
-const memoized = React.memo<Props>(PitOfSuccess);
+const memoized = memo<Props>(PitOfSuccess);
 
 export { memoized as PitOfSuccess };

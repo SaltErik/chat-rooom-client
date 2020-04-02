@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, memo } from "react";
 import { count } from "../utils/console";
 
 interface Props {
@@ -6,13 +6,13 @@ interface Props {
   author: string;
 }
 
-const Message: React.FC<Props> = (props: Props) => {
+const Message: FC<Props> = (props: Props) => {
   count(`Message: render`);
   const { text, author } = props;
 
   return <li>{`${author}: ${text}`}</li>;
 };
 
-const memoized = React.memo<Props>(Message);
+const memoized = memo<Props>(Message);
 
 export { memoized as Message };

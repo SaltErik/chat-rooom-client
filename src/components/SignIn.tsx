@@ -7,7 +7,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import React from "react";
+import React, { ChangeEvent, FC, FormEvent, memo } from "react";
 import { count } from "../utils/console";
 import { Copyright } from "./Copyright";
 
@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   mirror: string;
 }
 
-const SignIn: React.FC<Props> = (props: Props): JSX.Element => {
+const SignIn: FC<Props> = (props: Props): JSX.Element => {
   count(`SignIn: render`);
   const classes = useStyles();
 
@@ -78,6 +78,6 @@ const SignIn: React.FC<Props> = (props: Props): JSX.Element => {
   );
 };
 
-const memoized = React.memo<Props>(SignIn);
+const memoized = memo<Props>(SignIn);
 
 export { memoized as SignIn };

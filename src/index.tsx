@@ -1,11 +1,11 @@
 import "normalize.css";
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { Root } from "./components/Root";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <Root />
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById("root")
 );

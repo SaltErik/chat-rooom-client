@@ -1,13 +1,13 @@
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
+import React, { FC, memo } from "react";
 import { count } from "../utils/console";
 
 const year = new Date().getFullYear();
 
 interface Props {}
 
-const Copyright: React.FC<Props> = (): JSX.Element => {
+const Copyright: FC<Props> = (): JSX.Element => {
   count(`Copyright: render`);
 
   return (
@@ -21,6 +21,6 @@ const Copyright: React.FC<Props> = (): JSX.Element => {
   );
 };
 
-const memoized = React.memo<Props>(Copyright);
+const memoized = memo<Props>(Copyright);
 
 export { memoized as Copyright };

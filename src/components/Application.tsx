@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, FormEvent, KeyboardEvent, PureComponent } from "react";
 import { arrangeWebSocketConnection } from "../client/arrange";
 import { serialize } from "../client/serialize";
 import { Inbox, Outbox } from "../typings/declarations";
@@ -19,7 +19,7 @@ interface State {
   isUsernameAccepted: boolean;
 }
 
-class Application extends React.PureComponent<Props, State> {
+class Application extends PureComponent<Props, State> {
   state: State = {
     ws: null,
     username: "",
@@ -57,7 +57,7 @@ class Application extends React.PureComponent<Props, State> {
     count(`${this.constructor.name}: componentWillUnmount`);
   }
 
-  handleChangingChatField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+  handleChangingChatField(this: Application, event: ChangeEvent<HTMLInputElement>): void {
     count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
@@ -65,7 +65,7 @@ class Application extends React.PureComponent<Props, State> {
     }));
   }
 
-  handleChangingUsernameField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+  handleChangingUsernameField(this: Application, event: ChangeEvent<HTMLInputElement>): void {
     count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
@@ -73,7 +73,7 @@ class Application extends React.PureComponent<Props, State> {
     }));
   }
 
-  handleSubmitMessage(this: Application, event: React.KeyboardEvent): void {
+  handleSubmitMessage(this: Application, event: KeyboardEvent): void {
     count(`${this.constructor.name}: handleSubmitMessage`);
     if (event.key === "Enter") {
       event.preventDefault();
@@ -89,7 +89,7 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  handleSubmitUsername(this: Application, event: React.FormEvent<HTMLFormElement>): void {
+  handleSubmitUsername(this: Application, event: FormEvent<HTMLFormElement>): void {
     count(`${this.constructor.name}: handleSubmitUsername`);
     event.preventDefault();
     this.setState(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, memo } from "react";
 import { Inbox } from "../typings/declarations";
 import { count, log } from "../utils/console";
 import { Message } from "./Message";
@@ -8,7 +8,7 @@ interface Props {
   username: string;
 }
 
-const Conversation: React.FC<Props> = (props: Props): JSX.Element => {
+const Conversation: FC<Props> = (props: Props): JSX.Element => {
   count(`Conversation: render`);
   const { messages, username } = props;
 
@@ -24,6 +24,6 @@ const Conversation: React.FC<Props> = (props: Props): JSX.Element => {
   );
 };
 
-const memoized = React.memo<Props>(Conversation);
+const memoized = memo<Props>(Conversation);
 
 export { memoized as Conversation };
