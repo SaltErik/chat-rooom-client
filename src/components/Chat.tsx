@@ -1,4 +1,5 @@
-import React, { ChangeEvent, FC, KeyboardEvent, memo } from "react";
+import * as React from "react";
+import { ChangeEvent, FC, KeyboardEvent, memo } from "react";
 import { Inbox } from "../typings/declarations";
 import { count } from "../utils/console";
 import { Conversation } from "./Conversation";

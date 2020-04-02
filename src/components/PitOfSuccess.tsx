@@ -1,4 +1,5 @@
-import React, { FC, memo } from "react";
+import * as React from "react";
+import { FC, memo } from "react";
 import { Redirect } from "react-router-dom";
 import { count } from "../utils/console";
 

@@ -16,7 +16,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": false,
     "esModuleInterop": true,
     "allowUmdGlobalAccess": false,
     "experimentalDecorators": true,

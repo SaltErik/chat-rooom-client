@@ -1,5 +1,6 @@
 import TextField from "@material-ui/core/TextField";
-import React, { ChangeEvent, FC, KeyboardEvent, memo } from "react";
+import * as React from "react";
+import { ChangeEvent, FC, KeyboardEvent, memo } from "react";
 import "../styles/TextInput.css";
 import { count } from "../utils/console";
 

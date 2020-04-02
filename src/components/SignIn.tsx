@@ -7,7 +7,8 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import React, { ChangeEvent, FC, FormEvent, memo } from "react";
+import * as React from "react";
+import { ChangeEvent, FC, FormEvent, memo } from "react";
 import { count } from "../utils/console";
 import { Copyright } from "./Copyright";
 

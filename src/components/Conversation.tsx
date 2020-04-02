@@ -1,4 +1,5 @@
-import React, { FC, memo } from "react";
+import * as React from "react";
+import { FC, memo } from "react";
 import { Inbox } from "../typings/declarations";
 import { count, log } from "../utils/console";
 import { Message } from "./Message";

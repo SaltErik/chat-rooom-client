@@ -1,4 +1,5 @@
-import React, { ChangeEvent, FormEvent, KeyboardEvent, PureComponent } from "react";
+import * as React from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, PureComponent } from "react";
 import { arrangeWebSocketConnection } from "../client/arrange";
 import { serialize } from "../client/serialize";
 import { Inbox, Outbox } from "../typings/declarations";
