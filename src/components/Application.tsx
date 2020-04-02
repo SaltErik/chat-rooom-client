@@ -3,7 +3,7 @@ import { Inbox, Outbox } from "../typings/declarations";
 import { count, log } from "../utils/console";
 import { nay } from "../utils/nay";
 import { rethrow } from "../utils/rethrow";
-import { isChat, isUsername } from "../utils/typePredicates";
+import { isInboxChatMessage, isInboxUsername } from "../utils/typePredicates";
 import { yay } from "../utils/yay";
 import { Chat } from "./Chat";
 import { SignIn } from "./SignIn";
@@ -68,6 +68,7 @@ class Application extends React.PureComponent<Props, State> {
     let ws: WebSocket | null = null;
     try {
       ws = new WebSocket(this.deriveServerURL());
+      console.log(ws);
       ws.onclose = this.handleConnectionClose.bind(this);
       ws.onerror = this.handleConnectionError.bind(this);
       ws.onmessage = this.receive.bind(this);
@@ -136,6 +137,7 @@ class Application extends React.PureComponent<Props, State> {
 
   private handleConnectionError(this: Application, event: Event): void {
     count(`${this.constructor.name}: handleConnectionError`);
+    event.preventDefault();
     nay(`A connection error occured!`);
     console.warn(event);
   }
@@ -219,10 +221,10 @@ class Application extends React.PureComponent<Props, State> {
     count(`${this.constructor.name}: receive`);
     const message: Inbox.Message = this.deserialize(event.data);
     log(message);
-    if (isChat(message)) {
+    if (isInboxChatMessage(message)) {
       return this.handleIncomingChatMessage(message);
     }
-    if (isUsername(message)) {
+    if (isInboxUsername(message)) {
       return this.handleIncomingUsername(message);
     }
     nay(`UH-OH! Unknown message type recieved!`);

@@ -5,7 +5,9 @@ import { count } from "../utils/console";
 
 const year = new Date().getFullYear();
 
-const Copyright: React.FC = (): JSX.Element => {
+interface Props {}
+
+const Copyright: React.FC<Props> = (): JSX.Element => {
   count(`Copyright: render`);
 
   return (
@@ -19,4 +21,6 @@ const Copyright: React.FC = (): JSX.Element => {
   );
 };
 
-export { Copyright };
+const memoized = React.memo<Props>(Copyright);
+
+export { memoized as Copyright };
