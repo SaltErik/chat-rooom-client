@@ -4,8 +4,8 @@ import "../styles/TextInput.css";
 import { count } from "../utils/console";
 
 interface Props {
-  onKeyDown: (event: React.KeyboardEvent) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (event: React.KeyboardEvent) => void;
   mirror: string;
 }
 
@@ -16,14 +16,14 @@ const TextInput: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className="textinput">
       <TextField
+        onChange={onChange}
+        onKeyDown={onKeyDown}
         fullWidth
         autoFocus
         margin="normal"
         label="Message"
         rows="4"
         value={mirror}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
       />
     </div>
   );

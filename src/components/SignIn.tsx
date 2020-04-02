@@ -55,6 +55,7 @@ const SignIn: React.FC<Props> = (props: Props): JSX.Element => {
         </Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
+            onChange={onChange}
             variant="outlined"
             margin="normal"
             required
@@ -63,7 +64,6 @@ const SignIn: React.FC<Props> = (props: Props): JSX.Element => {
             label="Username"
             name="username"
             autoFocus
-            onChange={onChange}
             value={mirror}
           />
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>

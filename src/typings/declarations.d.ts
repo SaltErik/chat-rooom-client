@@ -1,3 +1,9 @@
+export interface ServerSettings {
+  port: number;
+  protocol: `ws://` | `wss://`;
+  domain: `localhost`;
+}
+
 export namespace Inbox {
   export interface ChatMessage {
     text: string;

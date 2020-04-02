@@ -1,21 +1,15 @@
 import React from "react";
+import { arrangeWebSocketConnection } from "../client/arrange";
+import { serialize } from "../client/serialize";
 import { Inbox, Outbox } from "../typings/declarations";
-import { count, log } from "../utils/console";
+import { count } from "../utils/console";
 import { nay } from "../utils/nay";
-import { rethrow } from "../utils/rethrow";
-import { isInboxChatMessage, isInboxUsername } from "../utils/typePredicates";
-import { yay } from "../utils/yay";
 import { Chat } from "./Chat";
 import { SignIn } from "./SignIn";
 
 interface Props {}
 
 interface State {
-  serverSettings: {
-    port: number;
-    protocol: `ws://` | `wss://`;
-    domain: string;
-  };
   ws: WebSocket | null;
   username: string;
   pendingUsername: string;
@@ -27,11 +21,6 @@ interface State {
 
 class Application extends React.PureComponent<Props, State> {
   state: State = {
-    serverSettings: {
-      port: 443,
-      protocol: `ws://`,
-      domain: `localhost`,
-    },
     ws: null,
     username: "",
     pendingUsername: "",
@@ -46,13 +35,18 @@ class Application extends React.PureComponent<Props, State> {
     count(`${this.constructor.name}: constructor`);
     this.handleChangingChatField = this.handleChangingChatField.bind(this);
     this.handleChangingUsernameField = this.handleChangingUsernameField.bind(this);
-    this.submitChatMessage = this.submitChatMessage.bind(this);
-    this.submitUsernameRequest = this.submitUsernameRequest.bind(this);
+    this.handleSubmitMessage = this.handleSubmitMessage.bind(this);
+    this.handleSubmitUsername = this.handleSubmitUsername.bind(this);
   }
 
   componentDidMount(this: Application): void {
     count(`${this.constructor.name}: componentDidMount`);
-    this.establishServerConnection();
+    const ws = arrangeWebSocketConnection(this);
+    if (ws) {
+      this.setState(() => ({
+        ws,
+      }));
+    }
   }
 
   componentDidUpdate(this: Application): void {
@@ -63,48 +57,7 @@ class Application extends React.PureComponent<Props, State> {
     count(`${this.constructor.name}: componentWillUnmount`);
   }
 
-  private establishServerConnection(this: Application): void {
-    count(`${this.constructor.name}: arrangeWebSocket`);
-    let ws: WebSocket | null = null;
-    try {
-      ws = new WebSocket(this.deriveServerURL());
-      ws.onclose = this.handleConnectionClose.bind(this);
-      ws.onerror = this.handleConnectionError.bind(this);
-      ws.onmessage = this.receive.bind(this);
-      ws.onopen = this.handleConnectionOpen.bind(this);
-    } catch (error) {
-      nay(`WebSocket instantiation failed!`, error);
-      ws = null;
-    } finally {
-      this.setState(() => ({
-        ws,
-      }));
-    }
-  }
-
-  private deriveServerURL(this: Application): string {
-    count(`${this.constructor.name}: deriveServerURL`);
-    const { protocol, domain, port } = this.state.serverSettings;
-    return `${protocol}${domain}:${port}`;
-  }
-
-  private deserialize(this: Application, message: string): Inbox.ChatMessage {
-    count(`${this.constructor.name}: deserialize`);
-    let deserialized: Inbox.ChatMessage = {
-      text: "",
-      author: "",
-      UUID: "",
-    };
-    try {
-      deserialized = JSON.parse(message);
-    } catch (error) {
-      error instanceof SyntaxError ? nay(`Deserialization failed!`, error) : rethrow(error);
-    } finally {
-      return deserialized;
-    }
-  }
-
-  private handleChangingChatField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+  handleChangingChatField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
     count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
@@ -112,7 +65,7 @@ class Application extends React.PureComponent<Props, State> {
     }));
   }
 
-  private handleChangingUsernameField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
+  handleChangingUsernameField(this: Application, event: React.ChangeEvent<HTMLInputElement>): void {
     count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
@@ -120,37 +73,8 @@ class Application extends React.PureComponent<Props, State> {
     }));
   }
 
-  private handleConnectionClose(this: Application, event: CloseEvent): void {
-    count(`${this.constructor.name}: handleConnectionClose`);
-    const { code, reason, wasClean } = event;
-    if (wasClean) {
-      yay(`Connection closed cleanly.`);
-      if (code) yay(`Code: ${code}`);
-      if (reason) yay(`Reason: ${reason}`);
-    } else {
-      nay(`Connection closed unexpectedly!`);
-      if (code) nay(`Code: ${code}`);
-      if (reason) nay(`Reason: ${reason}`);
-    }
-  }
-
-  private handleConnectionError(this: Application, event: Event): void {
-    count(`${this.constructor.name}: handleConnectionError`);
-    event.preventDefault();
-    nay(`A connection error occured!`);
-    console.warn(event);
-  }
-
-  private handleConnectionOpen(this: Application, event: Event): void {
-    count(`${this.constructor.name}: handleConnectionOpen`);
-    const { url } = event.srcElement as any;
-    if (url) {
-      yay(`Connection established to ${url}!`);
-    }
-  }
-
-  private submitChatMessage(this: Application, event: React.KeyboardEvent): void {
-    count(`${this.constructor.name}: submitChatMessage`);
+  handleSubmitMessage(this: Application, event: React.KeyboardEvent): void {
+    count(`${this.constructor.name}: handleSubmitMessage`);
     if (event.key === "Enter") {
       event.preventDefault();
       const { chatField, username } = this.state;
@@ -165,8 +89,8 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  private submitUsernameRequest(this: Application, event: React.FormEvent<HTMLFormElement>): void {
-    count(`${this.constructor.name}: submitUsernameRequest`);
+  handleSubmitUsername(this: Application, event: React.FormEvent<HTMLFormElement>): void {
+    count(`${this.constructor.name}: handleSubmitUsername`);
     event.preventDefault();
     this.setState(
       (state) => ({
@@ -185,7 +109,7 @@ class Application extends React.PureComponent<Props, State> {
     }));
   }
 
-  private handleIncomingUsername(this: Application, message: Inbox.Username): void {
+  handleIncomingUsername(this: Application, message: Inbox.Username): void {
     count(`${this.constructor.name}: handleIncomingUsername`);
     const { username, pendingUsername } = this.state;
     if (!username) {
@@ -206,66 +130,39 @@ class Application extends React.PureComponent<Props, State> {
     }
   }
 
-  private handleOutgoingUsername(this: Application, desiredUsername: Outbox.Username): void {
+  handleOutgoingUsername(this: Application, desiredUsername: Outbox.Username): void {
     count(`${this.constructor.name}: handleOutgoingUsername`);
     const { isUsernameAccepted } = this.state;
     if (isUsernameAccepted) {
       return nay(`Username is already accepted! This should not be sent, or even asked for...`);
     }
-    const serialized: string = this.serialize(desiredUsername);
+    const serialized: string = serialize(desiredUsername);
     this.transmit(serialized);
   }
 
-  private receive(this: Application, event: MessageEvent): void {
-    count(`${this.constructor.name}: receive`);
-    const message: Inbox.Message = this.deserialize(event.data);
-    log(message);
-    if (isInboxChatMessage(message)) {
-      return this.handleIncomingChatMessage(message);
-    }
-    if (isInboxUsername(message)) {
-      return this.handleIncomingUsername(message);
-    }
-    nay(`UH-OH! Unknown message type recieved!`);
-    log(message);
-  }
-
-  private handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage): void {
+  handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage): void {
     count(`${this.constructor.name}: handleIncomingChatMessage`);
     if (!message.text) nay(`INCOMING: Text field was empty!`);
     if (!message.author) nay(`INCOMING: Author field was empty!`);
     if (!message.UUID) nay(`INCOMING: UUID field was empty!`);
-    yay(`We got this!`);
     this.setState((state) => ({
       messages: [...state.messages, message],
     }));
   }
 
-  private handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage): void {
+  handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage): void {
     count(`${this.constructor.name}: handleOutgoingChatMessage`);
     if (!message.text) nay(`OUTGOING: Text field was empty!`);
     if (!message.author) nay(`OUTGOING: Author field was empty!`);
-    const serialized: string = this.serialize(message);
+    const serialized: string = serialize(message);
     this.transmit(serialized);
   }
 
-  private transmit(this: Application, message: string): void {
-    count(`${this.constructor.name}: transmit`);
+  transmit(message: string): void {
+    count(`client: transmit`);
     const { ws } = this.state;
     if (ws?.readyState === 1) {
       ws.send(message);
-    }
-  }
-
-  private serialize(this: Application, message: Outbox.Message): string {
-    count(`${this.constructor.name}: serialize`);
-    let serialized = "";
-    try {
-      serialized = JSON.stringify(message);
-    } catch (error) {
-      error instanceof TypeError ? nay(`Serialization failed!`, error) : rethrow(error);
-    } finally {
-      return serialized;
     }
   }
 
@@ -277,7 +174,7 @@ class Application extends React.PureComponent<Props, State> {
       return (
         <Chat
           onChange={this.handleChangingChatField}
-          onKeyDown={this.submitChatMessage}
+          onKeyDown={this.handleSubmitMessage}
           messages={messages}
           username={username}
           mirror={chatField}
@@ -286,11 +183,7 @@ class Application extends React.PureComponent<Props, State> {
     }
 
     return (
-      <SignIn
-        onSubmit={this.submitUsernameRequest}
-        mirror={usernameField}
-        onChange={this.handleChangingUsernameField}
-      />
+      <SignIn onChange={this.handleChangingUsernameField} onSubmit={this.handleSubmitUsername} mirror={usernameField} />
     );
   }
 }
