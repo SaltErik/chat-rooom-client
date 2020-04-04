@@ -3,13 +3,12 @@ import { FC, memo } from "react";
 import { count } from "../utils/console";
 
 interface Props {
-  text: string;
   author: string;
+  text: string;
 }
 
-const Message: FC<Props> = (props: Props) => {
+const Message: FC<Props> = ({ author, text }: Props) => {
   count(`Message: render`);
-  const { text, author } = props;
 
   return <li>{`${author}: ${text}`}</li>;
 };

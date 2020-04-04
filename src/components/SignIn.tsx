@@ -33,16 +33,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   mirror: string;
 }
 
-const SignIn: FC<Props> = (props: Props): JSX.Element => {
+const SignIn: FC<Props> = ({ onSubmit, mirror, onChange }: Props): JSX.Element => {
   count(`SignIn: render`);
   const classes = useStyles();
-
-  const { onSubmit, mirror, onChange } = props;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -54,20 +52,20 @@ const SignIn: FC<Props> = (props: Props): JSX.Element => {
         <Typography component="h1" variant="h5">
           Chat Room
         </Typography>
-        <form className={classes.form} noValidate onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className={classes.form} noValidate>
           <TextField
             onChange={onChange}
-            variant="outlined"
-            margin="normal"
-            required
+            autoFocus
             fullWidth
             id="username"
             label="Username"
+            margin="normal"
             name="username"
-            autoFocus
+            required
+            variant="outlined"
             value={mirror}
           />
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button className={classes.submit} color="primary" fullWidth type="submit" variant="contained">
             Connect
           </Button>
         </form>

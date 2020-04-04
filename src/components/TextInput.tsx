@@ -10,9 +10,8 @@ interface Props {
   mirror: string;
 }
 
-const TextInput: FC<Props> = (props: Props): JSX.Element => {
+const TextInput: FC<Props> = ({ onChange, onKeyDown, mirror }: Props): JSX.Element => {
   count(`TextInput: render`);
-  const { onKeyDown, onChange, mirror } = props;
 
   return (
     <div className="textinput">

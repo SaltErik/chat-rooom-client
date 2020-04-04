@@ -11,24 +11,24 @@ import { SignIn } from "./SignIn";
 interface Props {}
 
 interface State {
-  ws: WebSocket | null;
-  username: string;
-  pendingUsername: string;
   chatField: string;
-  usernameField: string;
-  messages: Inbox.ChatMessage[];
   isUsernameAccepted: boolean;
+  messages: Inbox.ChatMessage[];
+  pendingUsername: string;
+  username: string;
+  usernameField: string;
+  ws: WebSocket | null;
 }
 
 class Application extends PureComponent<Props, State> {
   state: State = {
-    ws: null,
-    username: "",
-    pendingUsername: "",
     chatField: "",
-    usernameField: "",
-    messages: [],
     isUsernameAccepted: false,
+    messages: [],
+    pendingUsername: "",
+    username: "",
+    usernameField: "",
+    ws: null,
   };
 
   constructor(props: Props) {
@@ -177,8 +177,8 @@ class Application extends PureComponent<Props, State> {
           onChange={this.handleChangingChatField}
           onKeyDown={this.handleSubmitMessage}
           messages={messages}
-          username={username}
           mirror={chatField}
+          username={username}
         />
       );
     }

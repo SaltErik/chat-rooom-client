@@ -13,7 +13,7 @@ const Copyright: FC<Props> = (): JSX.Element => {
 
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
+      {`Copyright © `}
       <Link color="inherit" href="https://www.ui.com/">
         Ubiqwiti
       </Link>

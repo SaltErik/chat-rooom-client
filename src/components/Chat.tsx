@@ -9,13 +9,12 @@ interface Props {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (event: KeyboardEvent) => void;
   messages: Inbox.ChatMessage[];
-  username: string;
   mirror: string;
+  username: string;
 }
 
-const Chat: FC<Props> = (props: Props): JSX.Element => {
+const Chat: FC<Props> = ({ onKeyDown, onChange, messages, username, mirror }: Props): JSX.Element => {
   count(`Chat: render`);
-  const { onKeyDown, onChange, messages, username, mirror } = props;
 
   return (
     <>

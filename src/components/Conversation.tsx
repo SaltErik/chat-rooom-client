@@ -9,9 +9,8 @@ interface Props {
   username: string;
 }
 
-const Conversation: FC<Props> = (props: Props): JSX.Element => {
+const Conversation: FC<Props> = ({ messages, username }: Props): JSX.Element => {
   count(`Conversation: render`);
-  const { messages, username } = props;
 
   return (
     <ul>
