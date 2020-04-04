@@ -16,19 +16,19 @@ const methodDecorator = <T, K extends keyof T>(_target: T, _key: K, descriptor: 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 const constructorCallHandler = {
-  construct(target: any, argumentsList: any[], _newTarget: FunctionConstructor) {
+  construct(target: Constructor, argumentsList: any[], _newTarget: FunctionConstructor) {
     count(`${target.name}: constructor`);
     return new target(...argumentsList);
   },
 };
 
-const constructorDecorator = <T>(constructor: T): T => {
+const constructorDecorator = <T extends Constructor>(constructor: T): InstanceType<ProxyConstructor> => {
   return new Proxy(constructor, constructorCallHandler);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-const clientAPI = <T>(...args: any[]): any => {
+const clientAPI = <T>(...args: any[]): Constructor<T> | PropertyDescriptor => {
   switch (args.length) {
     case 1:
       return constructorDecorator<Constructor<T>>(args[0]);
