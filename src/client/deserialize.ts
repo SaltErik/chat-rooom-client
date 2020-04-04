@@ -11,7 +11,7 @@ const deserialize = (message: string): Inbox.ChatMessage => {
     UUID: ``,
   };
   try {
-    deserialized = JSON.parse(message.toString());
+    deserialized = JSON.parse(message.toString().normalize());
   } catch (error) {
     error instanceof SyntaxError ? nay(`Deserialization failed!`, error) : rethrow(error);
   } finally {
