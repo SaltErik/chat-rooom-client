@@ -4,4 +4,3 @@ const log = console.log;
 const warn = console.warn;
 
 export { console, count, log, warn };
-

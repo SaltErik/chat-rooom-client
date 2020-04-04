@@ -8,4 +8,3 @@ const deriveURL = (serverSettings: ServerSettings): string => {
 };
 
 export { deriveURL };
-

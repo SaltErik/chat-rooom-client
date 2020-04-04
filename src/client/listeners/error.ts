@@ -6,7 +6,6 @@ function handleError(this: WebSocket, event: Event): void {
   event.preventDefault();
   event.stopPropagation();
   event.stopImmediatePropagation();
-  console.log();
   nay(`A connection error occured!`);
   console.warn(event);
 }

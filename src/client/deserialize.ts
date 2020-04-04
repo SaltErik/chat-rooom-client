@@ -6,9 +6,9 @@ import { rethrow } from "../utils/rethrow";
 const deserialize = (message: string): Inbox.ChatMessage => {
   count(`client: deserialize`);
   let deserialized: Inbox.ChatMessage = {
-    text: "",
-    author: "",
-    UUID: "",
+    text: ``,
+    author: ``,
+    UUID: ``,
   };
   try {
     deserialized = JSON.parse(message.toString());

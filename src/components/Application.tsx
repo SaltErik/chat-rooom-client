@@ -184,7 +184,11 @@ class Application extends PureComponent<Props, State> {
     }
 
     return (
-      <SignIn onChange={this.handleChangingUsernameField} onSubmit={this.handleSubmitUsername} mirror={usernameField} />
+      <SignIn
+        onChange={this.handleChangingUsernameField}
+        onSubmit={this.handleSubmitUsername}
+        mirror={usernameField}
+      />
     );
   }
 }
