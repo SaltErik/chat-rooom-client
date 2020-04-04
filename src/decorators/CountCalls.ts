@@ -2,7 +2,6 @@ import { count } from "../utils/console";
 
 const handler = {
   apply(target: Function, thisArg: Object, argumentsList: any[]) {
-    console.log(`I RAN`);
     count(`${thisArg.constructor.name}: ${target.name}`);
     return target.apply(thisArg, argumentsList);
   },
