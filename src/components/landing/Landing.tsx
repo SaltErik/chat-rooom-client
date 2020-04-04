@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import * as React from "react";
 import { ChangeEvent, FC, FormEvent, memo } from "react";
-import { count } from "../utils/console";
+import { count } from "../../utils/console";
 import { Copyright } from "./Copyright";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -38,8 +38,8 @@ interface Props {
   mirror: string;
 }
 
-const SignIn: FC<Props> = ({ onSubmit, mirror, onChange }: Props): JSX.Element => {
-  count(`SignIn: render`);
+const Landing: FC<Props> = ({ onSubmit, mirror, onChange }: Props): JSX.Element => {
+  count(`Landing: render`);
   const classes = useStyles();
 
   return (
@@ -77,6 +77,6 @@ const SignIn: FC<Props> = ({ onSubmit, mirror, onChange }: Props): JSX.Element =
   );
 };
 
-const memoized = memo<Props>(SignIn);
+const memoized = memo<Props>(Landing);
 
-export { memoized as SignIn };
+export { memoized as Landing };

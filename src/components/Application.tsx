@@ -7,8 +7,8 @@ import { CountCalls } from "../decorators/CountCalls";
 import { Inbox, Outbox } from "../typings/declarations";
 import { count } from "../utils/console";
 import { nay } from "../utils/nay";
-import { Chat } from "./Chat";
-import { SignIn } from "./SignIn";
+import { Chat } from "./chat/Chat";
+import { Landing } from "./landing/Landing";
 
 interface Props {}
 
@@ -194,7 +194,11 @@ class Application extends PureComponent<Props, State> {
     }
 
     return (
-      <SignIn onChange={this.handleChangingUsernameField} onSubmit={this.handleSubmitUsername} mirror={usernameField} />
+      <Landing
+        onChange={this.handleChangingUsernameField}
+        onSubmit={this.handleSubmitUsername}
+        mirror={usernameField}
+      />
     );
   }
 }

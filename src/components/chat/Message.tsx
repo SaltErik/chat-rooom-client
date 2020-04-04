@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FC, memo } from "react";
-import { count } from "../utils/console";
+import { count } from "../../utils/console";
 
 interface Props {
   author: string;

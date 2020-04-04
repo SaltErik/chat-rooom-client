@@ -2,7 +2,7 @@ import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { FC, memo } from "react";
-import { count } from "../utils/console";
+import { count } from "../../utils/console";
 
 const year = new Date().getFullYear();
 
