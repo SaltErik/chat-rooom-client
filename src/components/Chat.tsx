@@ -1,9 +1,13 @@
 import * as React from "react";
-import { ChangeEvent, FC, KeyboardEvent, memo } from "react";
+import { ChangeEvent, KeyboardEvent, PureComponent } from "react";
+import { AutoBind } from "../decorators/AutoBind";
+import { CountCalls } from "../decorators/CountCalls";
 import { Inbox } from "../typings/declarations";
 import { count } from "../utils/console";
 import { Conversation } from "./Conversation";
 import { TextInput } from "./TextInput";
+
+interface State {}
 
 interface Props {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -13,17 +17,39 @@ interface Props {
   username: string;
 }
 
-const Chat: FC<Props> = ({ onKeyDown, onChange, messages, username, mirror }: Props): JSX.Element => {
-  count(`Chat: render`);
+class Chat extends PureComponent<Props, State> {
+  state: State = {};
 
-  return (
-    <>
-      <Conversation messages={messages} username={username} />
-      <TextInput onChange={onChange} onKeyDown={onKeyDown} mirror={mirror} />
-    </>
-  );
-};
+  constructor(props: Props) {
+    super(props);
+    count(`${this.constructor.name}: constructor`);
+    AutoBind(this);
+  }
 
-const memoized = memo<Props>(Chat);
+  @CountCalls
+  @AutoBind
+  componentDidMount(this: Chat): void {}
 
-export { memoized as Chat };
+  @CountCalls
+  @AutoBind
+  componentDidUpdate(this: Chat): void {}
+
+  @CountCalls
+  @AutoBind
+  componentWillUnmount(this: Chat): void {}
+
+  @CountCalls
+  @AutoBind
+  render(this: Chat): JSX.Element {
+    const { onChange, onKeyDown, messages, mirror, username }: Props = this.props;
+
+    return (
+      <>
+        <Conversation messages={messages} username={username} />
+        <TextInput onChange={onChange} onKeyDown={onKeyDown} mirror={mirror} />
+      </>
+    );
+  }
+}
+
+export { Chat };

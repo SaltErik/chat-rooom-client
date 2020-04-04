@@ -1,4 +1,3 @@
-import { count } from "../utils/console";
 
 const methodNames: PropertyKey[] = [];
 
@@ -6,7 +5,6 @@ const methodNames: PropertyKey[] = [];
  *
  * Registers that name for future binding by the `constructTimeBinder`, which runs last (thanks to being called manually by the client in the class' constructor). */
 const methodDecorator = (_target: Object, key: PropertyKey, _descriptor: PropertyDescriptor): void => {
-  count(`AutoBind: methodDecorator`);
   methodNames.push(key);
 };
 
@@ -17,7 +15,6 @@ const methodDecorator = (_target: Object, key: PropertyKey, _descriptor: Propert
  * A call to `AutoBind(this)` in the constructor replaces all other manual `.bind(this)`-calls, though.
 */
 const constructTimeBinder = (that: any): void => {
-  count(`AutoBind: constructTimeBinder`);
   for (let name of methodNames) {
     const method: Function = that[name];
     that[name] = method.bind(that);
@@ -30,7 +27,6 @@ const constructTimeBinder = (that: any): void => {
  *
  * Calling `Autobind(this)` in the constructor is what "activates" the hand-placed decorators in the end. */
 function clientAPI(...args: any[]): void | never {
-  count(`AutoBind: clientAPI`);
   switch (args.length) {
     case 1:
       return constructTimeBinder(args[0]);

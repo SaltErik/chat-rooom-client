@@ -169,7 +169,7 @@ class Application extends PureComponent<Props, State> {
 
   @CountCalls
   @AutoBind
-  transmit(message: string): void {
+  transmit(this: Application, message: string): void {
     const { ws } = this.state;
     if (ws?.readyState === 1) {
       ws.send(message);
@@ -179,7 +179,7 @@ class Application extends PureComponent<Props, State> {
   @CountCalls
   @AutoBind
   render(this: Application): JSX.Element {
-    const { messages, username, chatField, usernameField, isUsernameAccepted } = this.state;
+    const { messages, username, chatField, usernameField, isUsernameAccepted }: State = this.state;
 
     if (isUsernameAccepted) {
       return (

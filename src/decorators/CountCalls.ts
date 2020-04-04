@@ -8,7 +8,6 @@ const callHandler = {
 };
 
 const methodDecorator = (_target: Object, _key: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor => {
-  count(`CountCalls: methodDecorator`);
   descriptor.value = new Proxy<PropertyDescriptor["value"]>(descriptor.value, callHandler);
   return descriptor;
 };
