@@ -2,6 +2,7 @@ import * as React from "react";
 import { ChangeEvent, FormEvent, KeyboardEvent, PureComponent } from "react";
 import { arrangeWebSocketConnection } from "../client/arrange";
 import { serialize } from "../client/serialize";
+import { CountCalls } from "../decorators/CountCalls";
 import { Inbox, Outbox } from "../typings/declarations";
 import { count } from "../utils/console";
 import { nay } from "../utils/nay";
@@ -40,8 +41,8 @@ class Application extends PureComponent<Props, State> {
     this.handleSubmitUsername = this.handleSubmitUsername.bind(this);
   }
 
+  @CountCalls
   componentDidMount(this: Application): void {
-    count(`${this.constructor.name}: componentDidMount`);
     const ws = arrangeWebSocketConnection(this);
     if (ws) {
       this.setState(() => ({
@@ -50,32 +51,30 @@ class Application extends PureComponent<Props, State> {
     }
   }
 
-  componentDidUpdate(this: Application): void {
-    count(`${this.constructor.name}: componentDidUpdate`);
-  }
+  @CountCalls
+  componentDidUpdate(this: Application): void {}
 
-  componentWillUnmount(this: Application): void {
-    count(`${this.constructor.name}: componentWillUnmount`);
-  }
+  @CountCalls
+  componentWillUnmount(this: Application): void {}
 
+  @CountCalls
   handleChangingChatField(this: Application, event: ChangeEvent<HTMLInputElement>): void {
-    count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
       chatField: event.target.value,
     }));
   }
 
+  @CountCalls
   handleChangingUsernameField(this: Application, event: ChangeEvent<HTMLInputElement>): void {
-    count(`${this.constructor.name}: handleChange`);
     event.persist();
     this.setState(() => ({
       usernameField: event.target.value,
     }));
   }
 
+  @CountCalls
   handleSubmitMessage(this: Application, event: KeyboardEvent): void {
-    count(`${this.constructor.name}: handleSubmitMessage`);
     if (event.key === "Enter") {
       event.preventDefault();
       const { chatField, username } = this.state;
@@ -90,8 +89,8 @@ class Application extends PureComponent<Props, State> {
     }
   }
 
+  @CountCalls
   handleSubmitUsername(this: Application, event: FormEvent<HTMLFormElement>): void {
-    count(`${this.constructor.name}: handleSubmitUsername`);
     event.preventDefault();
     this.setState(
       (state) => ({
@@ -110,8 +109,8 @@ class Application extends PureComponent<Props, State> {
     }));
   }
 
+  @CountCalls
   handleIncomingUsername(this: Application, message: Inbox.Username): void {
-    count(`${this.constructor.name}: handleIncomingUsername`);
     const { username, pendingUsername } = this.state;
     if (!username) {
       if (pendingUsername) {
@@ -131,8 +130,8 @@ class Application extends PureComponent<Props, State> {
     }
   }
 
+  @CountCalls
   handleOutgoingUsername(this: Application, desiredUsername: Outbox.Username): void {
-    count(`${this.constructor.name}: handleOutgoingUsername`);
     const { isUsernameAccepted } = this.state;
     if (isUsernameAccepted) {
       return nay(`Username is already accepted! This should not be sent, or even asked for...`);
@@ -141,8 +140,8 @@ class Application extends PureComponent<Props, State> {
     this.transmit(serialized);
   }
 
+  @CountCalls
   handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage): void {
-    count(`${this.constructor.name}: handleIncomingChatMessage`);
     if (!message.text) nay(`INCOMING: Text field was empty!`);
     if (!message.author) nay(`INCOMING: Author field was empty!`);
     if (!message.UUID) nay(`INCOMING: UUID field was empty!`);
@@ -151,24 +150,24 @@ class Application extends PureComponent<Props, State> {
     }));
   }
 
+  @CountCalls
   handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage): void {
-    count(`${this.constructor.name}: handleOutgoingChatMessage`);
     if (!message.text) nay(`OUTGOING: Text field was empty!`);
     if (!message.author) nay(`OUTGOING: Author field was empty!`);
     const serialized: string = serialize(message);
     this.transmit(serialized);
   }
 
+  @CountCalls
   transmit(message: string): void {
-    count(`client: transmit`);
     const { ws } = this.state;
     if (ws?.readyState === 1) {
       ws.send(message);
     }
   }
 
+  @CountCalls
   render(this: Application): JSX.Element {
-    count(`${this.constructor.name}: render`);
     const { messages, username, chatField, usernameField, isUsernameAccepted } = this.state;
 
     if (isUsernameAccepted) {
@@ -184,11 +183,7 @@ class Application extends PureComponent<Props, State> {
     }
 
     return (
-      <SignIn
-        onChange={this.handleChangingUsernameField}
-        onSubmit={this.handleSubmitUsername}
-        mirror={usernameField}
-      />
+      <SignIn onChange={this.handleChangingUsernameField} onSubmit={this.handleSubmitUsername} mirror={usernameField} />
     );
   }
 }
