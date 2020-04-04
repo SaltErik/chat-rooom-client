@@ -1,15 +1,16 @@
 import { count } from "../utils/console";
 
-const handler = {
-  apply(target: Function, thisArg: Object, argumentsList: any[]) {
+const callHandler = {
+  apply(target: Function, thisArg: Object, argumentsList: ArrayLike<IArguments>) {
     count(`${thisArg.constructor.name}: ${target.name}`);
     return target.apply(thisArg, argumentsList);
   },
 };
 
-const CountCalls = (_target: Object, _key: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor => {
-  descriptor.value = new Proxy<PropertyDescriptor["value"]>(descriptor.value, handler);
+const methodDecorator = (_target: Object, _key: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor => {
+  count(`CountCalls: methodDecorator`);
+  descriptor.value = new Proxy<PropertyDescriptor["value"]>(descriptor.value, callHandler);
   return descriptor;
 };
 
-export { CountCalls };
+export { methodDecorator as CountCalls };
