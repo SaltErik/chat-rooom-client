@@ -7,8 +7,6 @@ import { count } from "../utils/console";
 import { Conversation } from "./Conversation";
 import { TextInput } from "./TextInput";
 
-interface State {}
-
 interface Props {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (event: KeyboardEvent) => void;
@@ -16,6 +14,8 @@ interface Props {
   mirror: string;
   username: string;
 }
+
+interface State {}
 
 class Chat extends PureComponent<Props, State> {
   state: State = {};

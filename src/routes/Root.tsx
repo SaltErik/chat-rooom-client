@@ -1,8 +1,8 @@
 import * as React from "react";
 import { FC, memo } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Application } from "../components/Application";
 import { count } from "../utils/console";
-import { Application } from "./Application";
 import { PitOfSuccess } from "./PitOfSuccess";
 
 interface Props {}
