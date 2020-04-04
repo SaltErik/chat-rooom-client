@@ -3,7 +3,6 @@ import { ChangeEvent, KeyboardEvent, PureComponent } from "react";
 import { AutoBind } from "../../decorators/AutoBind";
 import { CountCalls } from "../../decorators/CountCalls";
 import { Inbox } from "../../typings/declarations";
-import { count } from "../../utils/console";
 import { Conversation } from "./Conversation";
 import { TextInput } from "./TextInput";
 
@@ -17,12 +16,12 @@ interface Props {
 
 interface State {}
 
+@CountCalls
 class Chat extends PureComponent<Props, State> {
   state: State = {};
 
   constructor(props: Props) {
     super(props);
-    count(`${this.constructor.name}: constructor`);
     AutoBind(this);
   }
 

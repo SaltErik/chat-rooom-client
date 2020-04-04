@@ -5,7 +5,6 @@ import { serialize } from "../client/serialize";
 import { AutoBind } from "../decorators/AutoBind";
 import { CountCalls } from "../decorators/CountCalls";
 import { Inbox, Outbox } from "../typings/declarations";
-import { count } from "../utils/console";
 import { nay } from "../utils/nay";
 import { Chat } from "./chat/Chat";
 import { Landing } from "./landing/Landing";
@@ -22,6 +21,7 @@ interface State {
   ws: WebSocket | null;
 }
 
+@CountCalls
 class Application extends PureComponent<Props, State> {
   state: State = {
     chatField: "",
@@ -35,7 +35,6 @@ class Application extends PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    count(`${this.constructor.name}: constructor`);
     AutoBind(this);
   }
 
