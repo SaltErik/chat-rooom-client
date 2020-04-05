@@ -1,10 +1,11 @@
+import { IndexableObject } from "../typings/declarations";
 
-const methodNames: PropertyKey[] = [];
+const methodNames: IndexableObject[keyof IndexableObject][] = [];
 
 /** Runs once for each method decorated with `@AutoBind`.
  *
  * Registers that name for future binding by the `constructTimeBinder`, which runs last (thanks to being called manually by the client in the class' constructor). */
-const methodDecorator = (_target: Object, key: PropertyKey, _descriptor: PropertyDescriptor): void => {
+const methodDecorator = (_target: Function, key: keyof Function, _descriptor: PropertyDescriptor): void => {
   methodNames.push(key);
 };
 
@@ -14,7 +15,7 @@ const methodDecorator = (_target: Object, key: PropertyKey, _descriptor: Propert
  *
  * A call to `AutoBind(this)` in the constructor replaces all other manual `.bind(this)`-calls, though.
 */
-const constructTimeBinder = (that: any): void => {
+const constructTimeBinder = (that: IndexableObject): void => {
   for (let name of methodNames) {
     const method: Function = that[name];
     that[name] = method.bind(that);
