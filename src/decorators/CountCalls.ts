@@ -2,15 +2,15 @@ import { isConstructorMethod } from "../predicates/decorators/class/constructor"
 import { Constructor } from "../typings/declarations";
 import { count } from "../utils/console";
 
-const countCalls = {
-  apply(target: Function, thisArg: Object, argumentsList: any[]) {
+const countCalls: ProxyHandler<Function> = {
+  apply(target: Function, thisArg: Object, argumentsList: unknown[]) {
     count(`${thisArg.constructor.name}: ${target.name}`);
     return target.apply(thisArg, argumentsList);
   },
 };
 
-const countConstructorCalls = {
-  construct(target: Constructor, argumentsList: any[], _newTarget: Object) {
+const countConstructorCalls: ProxyHandler<Constructor> = {
+  construct(target: Constructor, argumentsList: unknown[], _newTarget: Object) {
     count(`${target.name}: constructor`);
     return new target(...argumentsList);
   },
@@ -21,9 +21,9 @@ const countConstructorCalls = {
 const prototypeDecorator = (targetClass: any) => {
   const descriptors = Object.getOwnPropertyDescriptors(targetClass.prototype);
 
-  let decoratedConstructor;
+  let decoratedConstructor: Constructor | void;
   for (let descriptor in descriptors) {
-    const method = targetClass.prototype[descriptor];
+    const method: Function = targetClass.prototype[descriptor];
 
     if (isConstructorMethod(method, targetClass)) {
       /** This means we've identified the constructor (which requires a custom trap handler). */
