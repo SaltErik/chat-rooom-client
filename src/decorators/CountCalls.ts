@@ -8,7 +8,7 @@ const methodCallHandler = {
   },
 };
 
-const methodDecorator = <T, K extends keyof T>(_target: T, _key: K, descriptor: PropertyDescriptor): PropertyDescriptor => {
+const methodDecorator = (_target: Function, _key: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor => {
   descriptor.value = new Proxy<PropertyDescriptor["value"]>(descriptor.value, methodCallHandler);
   return descriptor;
 };
