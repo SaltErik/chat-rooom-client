@@ -1,8 +1,9 @@
 import { Application } from "../../components/Application";
+import { isInboxChatMessage } from "../../predicates/messages/inbox/chat";
+import { isInboxUsername } from "../../predicates/messages/inbox/username";
 import { Inbox } from "../../typings/declarations";
 import { count, log } from "../../utils/console";
 import { nay } from "../../utils/nay";
-import { isInboxChatMessage, isInboxUsername } from "../../utils/typePredicates";
 import { deserialize } from "../deserialize";
 
 function handleMessage(this: Application, event: MessageEvent): void {

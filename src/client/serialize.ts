@@ -1,3 +1,4 @@
+import { isTypeError } from "../predicates/errors/type";
 import { Outbox } from "../typings/declarations";
 import { count } from "../utils/console";
 import { nay } from "../utils/nay";
@@ -9,7 +10,7 @@ const serialize = (message: Outbox.Message): string => {
   try {
     serialized = JSON.stringify(message);
   } catch (error) {
-    error instanceof TypeError ? nay(`Serialization failed!`, error) : rethrow(error);
+    isTypeError(error) ? nay(`Serialization failed!`, error) : rethrow(error);
   } finally {
     return serialized;
   }

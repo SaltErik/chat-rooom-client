@@ -1,3 +1,4 @@
+import { isSyntaxError } from "../predicates/errors/syntax";
 import { Inbox } from "../typings/declarations";
 import { count } from "../utils/console";
 import { nay } from "../utils/nay";
@@ -13,7 +14,7 @@ const deserialize = (message: string): Inbox.ChatMessage => {
   try {
     deserialized = JSON.parse(message.toString().normalize());
   } catch (error) {
-    error instanceof SyntaxError ? nay(`Deserialization failed!`, error) : rethrow(error);
+    isSyntaxError(error) ? nay(`Deserialization failed!`, error) : rethrow(error);
   } finally {
     return deserialized;
   }
