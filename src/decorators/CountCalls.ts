@@ -1,42 +1,45 @@
 import { Constructor } from "../typings/declarations";
 import { count } from "../utils/console";
 
-const methodCallHandler = {
+const countCalls = {
   apply(target: Function, thisArg: Object, argumentsList: any[]) {
     count(`${thisArg.constructor.name}: ${target.name}`);
     return target.apply(thisArg, argumentsList);
   },
 };
 
-const methodDecorator = (_target: Function, _key: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor => {
-  descriptor.value = new Proxy<PropertyDescriptor["value"]>(descriptor.value, methodCallHandler);
-  return descriptor;
-};
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-const constructorCallHandler = {
+const countConstructorCalls = {
   construct(target: Constructor, argumentsList: any[], _newTarget: Object) {
     count(`${target.name}: constructor`);
     return new target(...argumentsList);
   },
 };
 
-const constructorDecorator = (constructor: Constructor) => {
-  return new Proxy(constructor, constructorCallHandler);
+////////////////////////////////////////////////////////////////////////////////////////
+
+const prototypeDecorator = (decoratedClass: any) => {
+  const descriptors = Object.getOwnPropertyDescriptors(decoratedClass.prototype);
+
+  let replacementConstructor;
+  for (let descriptor in descriptors) {
+    const firstPrototype = Object.getPrototypeOf(decoratedClass.prototype[descriptor]);
+    const secondPrototype = Object.getPrototypeOf(decoratedClass);
+
+    if (Object.is(firstPrototype, secondPrototype)) {
+      /** This means we've identified the constructor (which requires a custom trap handler). */
+      replacementConstructor = new Proxy(decoratedClass.prototype[descriptor], countConstructorCalls);
+    } else {
+      /** Regular method, regular trap handler. */
+      decoratedClass.prototype[descriptor] = new Proxy(decoratedClass.prototype[descriptor], countCalls);
+    }
+  }
+
+  if (replacementConstructor) {
+    return replacementConstructor;
+  }
+  return decoratedClass;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-const clientAPI = (...args: any[]): any | never => {
-  switch (args.length) {
-    case 1:
-      return constructorDecorator(args[0]);
-    case 3:
-      return methodDecorator(args[0], args[1], args[2]);
-    default:
-      throw new RangeError(`Expected 1 or 3 arguments, recieved ${args.length}!`);
-  }
-};
-
-export { clientAPI as CountCalls };
+export { prototypeDecorator as CountCalls };

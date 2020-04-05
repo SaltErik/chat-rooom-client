@@ -38,7 +38,6 @@ class Application extends PureComponent<Props, State> {
     AutoBind(this);
   }
 
-  @CountCalls
   @AutoBind
   componentDidMount(this: Application): void {
     const ws = arrangeWebSocketConnection(this);
@@ -49,15 +48,12 @@ class Application extends PureComponent<Props, State> {
     }
   }
 
-  @CountCalls
   @AutoBind
   componentDidUpdate(this: Application): void {}
 
-  @CountCalls
   @AutoBind
   componentWillUnmount(this: Application): void {}
 
-  @CountCalls
   @AutoBind
   handleChangingChatField(this: Application, event: ChangeEvent<HTMLInputElement>): void {
     event.persist();
@@ -66,7 +62,6 @@ class Application extends PureComponent<Props, State> {
     }));
   }
 
-  @CountCalls
   @AutoBind
   handleChangingUsernameField(this: Application, event: ChangeEvent<HTMLInputElement>): void {
     event.persist();
@@ -75,7 +70,6 @@ class Application extends PureComponent<Props, State> {
     }));
   }
 
-  @CountCalls
   @AutoBind
   handleSubmitMessage(this: Application, event: KeyboardEvent): void {
     if (event.key === "Enter") {
@@ -92,7 +86,6 @@ class Application extends PureComponent<Props, State> {
     }
   }
 
-  @CountCalls
   @AutoBind
   handleSubmitUsername(this: Application, event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -113,7 +106,6 @@ class Application extends PureComponent<Props, State> {
     }));
   }
 
-  @CountCalls
   @AutoBind
   handleIncomingUsername(this: Application, message: Inbox.Username): void {
     const { username, pendingUsername } = this.state;
@@ -135,7 +127,6 @@ class Application extends PureComponent<Props, State> {
     }
   }
 
-  @CountCalls
   @AutoBind
   handleOutgoingUsername(this: Application, desiredUsername: Outbox.Username): void {
     const { isUsernameAccepted } = this.state;
@@ -146,7 +137,6 @@ class Application extends PureComponent<Props, State> {
     this.transmit(serialized);
   }
 
-  @CountCalls
   @AutoBind
   handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage): void {
     if (!message.text) nay(`INCOMING: Text field was empty!`);
@@ -157,7 +147,6 @@ class Application extends PureComponent<Props, State> {
     }));
   }
 
-  @CountCalls
   @AutoBind
   handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage): void {
     if (!message.text) nay(`OUTGOING: Text field was empty!`);
@@ -166,7 +155,6 @@ class Application extends PureComponent<Props, State> {
     this.transmit(serialized);
   }
 
-  @CountCalls
   @AutoBind
   transmit(this: Application, message: string): void {
     const { ws } = this.state;
@@ -175,7 +163,6 @@ class Application extends PureComponent<Props, State> {
     }
   }
 
-  @CountCalls
   @AutoBind
   render(this: Application): JSX.Element {
     const { messages, username, chatField, usernameField, isUsernameAccepted }: State = this.state;
@@ -192,13 +179,7 @@ class Application extends PureComponent<Props, State> {
       );
     }
 
-    return (
-      <Landing
-        onChange={this.handleChangingUsernameField}
-        onSubmit={this.handleSubmitUsername}
-        mirror={usernameField}
-      />
-    );
+    return <Landing onChange={this.handleChangingUsernameField} onSubmit={this.handleSubmitUsername} mirror={usernameField} />;
   }
 }
 

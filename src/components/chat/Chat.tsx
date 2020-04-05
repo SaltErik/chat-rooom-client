@@ -25,19 +25,15 @@ class Chat extends PureComponent<Props, State> {
     AutoBind(this);
   }
 
-  @CountCalls
   @AutoBind
   componentDidMount(this: Chat): void {}
 
-  @CountCalls
   @AutoBind
   componentDidUpdate(this: Chat): void {}
 
-  @CountCalls
   @AutoBind
   componentWillUnmount(this: Chat): void {}
 
-  @CountCalls
   @AutoBind
   render(this: Chat): JSX.Element {
     const { onChange, onKeyDown, messages, mirror, username }: Props = this.props;
