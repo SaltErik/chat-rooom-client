@@ -1,3 +1,4 @@
+import { isConstructorMethod } from "../predicates/decorators/class/constructor";
 import { Constructor } from "../typings/declarations";
 import { count } from "../utils/console";
 
@@ -17,27 +18,26 @@ const countConstructorCalls = {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-const prototypeDecorator = (decoratedClass: any) => {
-  const descriptors = Object.getOwnPropertyDescriptors(decoratedClass.prototype);
+const prototypeDecorator = (targetClass: any) => {
+  const descriptors = Object.getOwnPropertyDescriptors(targetClass.prototype);
 
-  let replacementConstructor;
+  let decoratedConstructor;
   for (let descriptor in descriptors) {
-    const firstPrototype = Object.getPrototypeOf(decoratedClass.prototype[descriptor]);
-    const secondPrototype = Object.getPrototypeOf(decoratedClass);
+    const method = targetClass.prototype[descriptor];
 
-    if (Object.is(firstPrototype, secondPrototype)) {
+    if (isConstructorMethod(method, targetClass)) {
       /** This means we've identified the constructor (which requires a custom trap handler). */
-      replacementConstructor = new Proxy(decoratedClass.prototype[descriptor], countConstructorCalls);
+      decoratedConstructor = new Proxy(method, countConstructorCalls);
     } else {
       /** Regular method, regular trap handler. */
-      decoratedClass.prototype[descriptor] = new Proxy(decoratedClass.prototype[descriptor], countCalls);
+      targetClass.prototype[descriptor] = new Proxy(method, countCalls);
     }
   }
 
-  if (replacementConstructor) {
-    return replacementConstructor;
+  if (decoratedConstructor) {
+    return decoratedConstructor;
   }
-  return decoratedClass;
+  return targetClass;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
