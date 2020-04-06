@@ -18,11 +18,6 @@ interface State {}
 class TextInput extends PureComponent<Props, State> {
   state: State = {};
 
-  constructor(props: Props) {
-    super(props);
-    AutoBind(this);
-  }
-
   render(this: TextInput): JSX.Element {
     const { onChange, onKeyDown, mirror }: Props = this.props;
 

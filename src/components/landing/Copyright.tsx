@@ -16,11 +16,6 @@ interface State {}
 class Copyright extends PureComponent<Props, State> {
   state: State = {};
 
-  constructor(props: Props) {
-    super(props);
-    AutoBind(this);
-  }
-
   render(this: Copyright): JSX.Element {
     return (
       <Typography align="center" color="textSecondary" variant="body2">

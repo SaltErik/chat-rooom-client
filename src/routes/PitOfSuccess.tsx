@@ -17,11 +17,6 @@ interface State {}
 class PitOfSuccess extends PureComponent<Props, State> {
   state: State = {};
 
-  constructor(props: Props) {
-    super(props);
-    AutoBind(this);
-  }
-
   render(this: PitOfSuccess): JSX.Element {
     return <Redirect to={splashPage} />;
   }

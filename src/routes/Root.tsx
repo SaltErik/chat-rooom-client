@@ -15,11 +15,6 @@ interface State {}
 class Root extends PureComponent<Props, State> {
   state: State = {};
 
-  constructor(props: Props) {
-    super(props);
-    AutoBind(this);
-  }
-
   render(this: Root): JSX.Element {
     return (
       <BrowserRouter>

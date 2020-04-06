@@ -21,11 +21,6 @@ interface State {}
 class Chat extends PureComponent<Props, State> {
   state: State = {};
 
-  constructor(props: Props) {
-    super(props);
-    AutoBind(this);
-  }
-
   render(this: Chat): JSX.Element {
     const { onChange, onKeyDown, messages, mirror, username }: Props = this.props;
 

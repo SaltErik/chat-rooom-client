@@ -34,11 +34,6 @@ class Application extends PureComponent<Props, State> {
     ws: null,
   };
 
-  constructor(props: Props) {
-    super(props);
-    AutoBind(this);
-  }
-
   componentDidMount(this: Application): void {
     const ws = arrangeWebSocketConnection(this);
     if (ws) {

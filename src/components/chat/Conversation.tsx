@@ -18,11 +18,6 @@ interface State {}
 class Conversation extends PureComponent<Props, State> {
   state: State = {};
 
-  constructor(props: Props) {
-    super(props);
-    AutoBind(this);
-  }
-
   render(this: Conversation): JSX.Element {
     const { messages, username }: Props = this.props;
 
