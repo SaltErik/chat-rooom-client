@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ChangeEvent, KeyboardEvent, PureComponent } from "react";
-import { AutoBind } from "../../decorators/AutoBind";
-import { CountCalls } from "../../decorators/CountCalls";
+import { CountCalls } from "../../decorators/@class/CountCalls";
+import { AutoBind } from "../../decorators/@method/AutoBind";
 import { Inbox } from "../../typings/declarations";
 import { Conversation } from "./Conversation";
 import { TextInput } from "./TextInput";
@@ -17,6 +17,7 @@ interface Props {
 interface State {}
 
 @CountCalls
+@AutoBind
 class Chat extends PureComponent<Props, State> {
   state: State = {};
 
@@ -25,16 +26,6 @@ class Chat extends PureComponent<Props, State> {
     AutoBind(this);
   }
 
-  @AutoBind
-  componentDidMount(this: Chat): void {}
-
-  @AutoBind
-  componentDidUpdate(this: Chat): void {}
-
-  @AutoBind
-  componentWillUnmount(this: Chat): void {}
-
-  @AutoBind
   render(this: Chat): JSX.Element {
     const { onChange, onKeyDown, messages, mirror, username }: Props = this.props;
 

@@ -1,6 +1,6 @@
 import { Application } from "../../components/Application";
-import { isInboxChatMessage } from "../../predicates/messages/inbox/chat";
-import { isInboxUsername } from "../../predicates/messages/inbox/username";
+import { isInboxChatMessage } from "../../predicates/messages/inbox/isInboxChatMessage";
+import { isInboxUsername } from "../../predicates/messages/inbox/isInboxUsername";
 import { Inbox } from "../../typings/declarations";
 import { count, log } from "../../utils/console";
 import { nay } from "../../utils/nay";

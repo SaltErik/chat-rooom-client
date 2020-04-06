@@ -1,27 +1,37 @@
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
-import { FC, memo } from "react";
-import { count } from "../../utils/console";
+import { PureComponent } from "react";
+import { CountCalls } from "../../decorators/@class/CountCalls";
+import { AutoBind } from "../../decorators/@method/AutoBind";
 
 const year = new Date().getFullYear();
 
 interface Props {}
 
-const Copyright: FC<Props> = (): JSX.Element => {
-  count(`Copyright: render`);
+interface State {}
 
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {`Copyright © `}
-      <Link color="inherit" href="https://www.ui.com/">
-        Ubiqwiti
-      </Link>
-      {` ${year}.`}
-    </Typography>
-  );
-};
+@CountCalls
+@AutoBind
+class Copyright extends PureComponent<Props, State> {
+  state: State = {};
 
-const memoized = memo<Props>(Copyright);
+  constructor(props: Props) {
+    super(props);
+    AutoBind(this);
+  }
 
-export { memoized as Copyright };
+  render(this: Copyright): JSX.Element {
+    return (
+      <Typography align="center" color="textSecondary" variant="body2">
+        {`Copyright © `}
+        <Link color="inherit" href="https://www.ui.com/">
+          Ubiqwiti
+        </Link>
+        {` ${year}.`}
+      </Typography>
+    );
+  }
+}
+
+export { Copyright };

@@ -1,7 +1,8 @@
 import * as React from "react";
-import { FC, memo } from "react";
+import { PureComponent } from "react";
 import { Redirect } from "react-router-dom";
-import { count } from "../utils/console";
+import { CountCalls } from "../decorators/@class/CountCalls";
+import { AutoBind } from "../decorators/@method/AutoBind";
 
 const splashPage = {
   pathname: "/join",
@@ -9,12 +10,20 @@ const splashPage = {
 
 interface Props {}
 
-const PitOfSuccess: FC<Props> = (): JSX.Element => {
-  count(`PitOfSuccess: render`);
+interface State {}
 
-  return <Redirect to={splashPage} />;
-};
+@CountCalls
+@AutoBind
+class PitOfSuccess extends PureComponent<Props, State> {
+  state: State = {};
 
-const memoized = memo<Props>(PitOfSuccess);
+  constructor(props: Props) {
+    super(props);
+    AutoBind(this);
+  }
 
-export { memoized as PitOfSuccess };
+  render(this: PitOfSuccess): JSX.Element {
+    return <Redirect to={splashPage} />;
+  }
+}
+export { PitOfSuccess };

@@ -1,8 +1,9 @@
 import TextField from "@material-ui/core/TextField";
 import * as React from "react";
-import { ChangeEvent, FC, KeyboardEvent, memo } from "react";
+import { ChangeEvent, KeyboardEvent, PureComponent } from "react";
+import { CountCalls } from "../../decorators/@class/CountCalls";
+import { AutoBind } from "../../decorators/@method/AutoBind";
 import "../../styles/TextInput.css";
-import { count } from "../../utils/console";
 
 interface Props {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -10,25 +11,27 @@ interface Props {
   mirror: string;
 }
 
-const TextInput: FC<Props> = ({ onChange, onKeyDown, mirror }: Props): JSX.Element => {
-  count(`TextInput: render`);
+interface State {}
 
-  return (
-    <div className="textinput">
-      <TextField
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        fullWidth
-        autoFocus
-        margin="normal"
-        label="Message"
-        rows="4"
-        value={mirror}
-      />
-    </div>
-  );
-};
+@CountCalls
+@AutoBind
+class TextInput extends PureComponent<Props, State> {
+  state: State = {};
 
-const memoized = memo<Props>(TextInput);
+  constructor(props: Props) {
+    super(props);
+    AutoBind(this);
+  }
 
-export { memoized as TextInput };
+  render(this: TextInput): JSX.Element {
+    const { onChange, onKeyDown, mirror }: Props = this.props;
+
+    return (
+      <div className="textinput">
+        <TextField onChange={onChange} onKeyDown={onKeyDown} autoFocus fullWidth label="Message" margin="normal" rows="4" value={mirror} />
+      </div>
+    );
+  }
+}
+
+export { TextInput };

@@ -1,7 +1,9 @@
 import * as React from "react";
-import { FC, memo } from "react";
+import { PureComponent } from "react";
+import { CountCalls } from "../../decorators/@class/CountCalls";
+import { AutoBind } from "../../decorators/@method/AutoBind";
 import { Inbox } from "../../typings/declarations";
-import { count, log } from "../../utils/console";
+import { log } from "../../utils/console";
 import { Message } from "./Message";
 
 interface Props {
@@ -9,21 +11,32 @@ interface Props {
   username: string;
 }
 
-const Conversation: FC<Props> = ({ messages, username }: Props): JSX.Element => {
-  count(`Conversation: render`);
+interface State {}
 
-  return (
-    <ul>
-      {messages.map((message) => {
-        log(message);
-        const { text, author, UUID } = message;
-        const displayName = username === author ? `You` : author;
-        return <Message key={UUID} text={text} author={displayName} />;
-      })}
-    </ul>
-  );
-};
+@CountCalls
+@AutoBind
+class Conversation extends PureComponent<Props, State> {
+  state: State = {};
 
-const memoized = memo<Props>(Conversation);
+  constructor(props: Props) {
+    super(props);
+    AutoBind(this);
+  }
 
-export { memoized as Conversation };
+  render(this: Conversation): JSX.Element {
+    const { messages, username }: Props = this.props;
+
+    return (
+      <ul>
+        {messages.map((message) => {
+          log(message);
+          const { text, author, UUID } = message;
+          const displayName = username === author ? `You` : author;
+          return <Message key={UUID} text={text} author={displayName} />;
+        })}
+      </ul>
+    );
+  }
+}
+
+export { Conversation };

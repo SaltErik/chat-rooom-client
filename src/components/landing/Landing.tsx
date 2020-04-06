@@ -38,7 +38,7 @@ interface Props {
   mirror: string;
 }
 
-const Landing: FC<Props> = ({ onSubmit, mirror, onChange }: Props): JSX.Element => {
+const Landing: FC<Props> = ({ onSubmit, onChange, mirror }: Props): JSX.Element => {
   count(`Landing: render`);
   const classes = useStyles();
 

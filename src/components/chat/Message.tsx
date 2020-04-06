@@ -1,18 +1,30 @@
 import * as React from "react";
-import { FC, memo } from "react";
-import { count } from "../../utils/console";
+import { PureComponent } from "react";
+import { CountCalls } from "../../decorators/@class/CountCalls";
+import { AutoBind } from "../../decorators/@method/AutoBind";
 
 interface Props {
   author: string;
   text: string;
 }
 
-const Message: FC<Props> = ({ author, text }: Props) => {
-  count(`Message: render`);
+interface State {}
 
-  return <li>{`${author}: ${text}`}</li>;
-};
+@CountCalls
+@AutoBind
+class Message extends PureComponent<Props, State> {
+  state: State = {};
 
-const memoized = memo<Props>(Message);
+  constructor(props: Props) {
+    super(props);
+    AutoBind(this);
+  }
 
-export { memoized as Message };
+  render(this: Message): JSX.Element {
+    const { author, text }: Props = this.props;
+
+    return <li>{`${author}: ${text}`}</li>;
+  }
+}
+
+export { Message };
