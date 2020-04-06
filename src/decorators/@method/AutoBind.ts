@@ -6,11 +6,11 @@ const classDecorator = (targetClass: any): void => {
   classesToDescriptorsTable.set(classPrototype, descriptors);
 };
 
-/** Runs once per instance, applying the transformations en masse in the constructor.
+/** Runs once (per new instance - for that instance), applying the transformations en masse in the constructor.
  *
- * NOTE: Must be called manually in the constructor!
+ * NOTE: `AutoBind(this)` must be called manually in the constructor!
  *
- * A single call to `newInstanceBinder(this)` in the constructor replaces ALL other manual `.bind(this)`-calls, though.
+ * A single call to `AutoBind(this)` in the constructor replaces ALL other manual `.bind(this)`-calls, though.
  */
 const newInstanceBinder = (that: any): void => {
   const classConstructor = that.constructor;
@@ -23,7 +23,7 @@ const newInstanceBinder = (that: any): void => {
 
 /** Provides a single entry point for consumers.
  *
- * The client decorates the desired methods with `@AutoBind`, and ALSO calls `AutoBind(this)` in the class constructor.
+ * The client decorates the desired class `@AutoBind`, and ALSO calls `AutoBind(this)` in the class constructor.
  *
  * Calling `Autobind(this)` in the constructor is what "activates" the hand-placed decorators in the end. */
 function clientAPI(target: any): void | never {
