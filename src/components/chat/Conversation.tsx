@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PureComponent } from "react";
-import { CountCalls } from "../../decorators/@class/CountCalls";
-import { AutoBind } from "../../decorators/@method/AutoBind";
+import { AutoBind } from "../../decorators/AutoBind";
+import { CountCalls } from "../../decorators/CountCalls";
 import { Inbox } from "../../typings/declarations";
 import { log } from "../../utils/console";
 import { Message } from "./Message";

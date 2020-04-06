@@ -1,7 +1,7 @@
-import { isConstructorMethod } from "../../predicates/classes/isConstructorMethod";
-import { Constructor } from "../../typings/declarations";
-import { countCalls } from "../trap-handlers/countCalls";
-import { countConstructorCalls } from "../trap-handlers/countConstructorCalls";
+import { isConstructorMethod } from "../predicates/classes/isConstructorMethod";
+import { Constructor } from "../typings/declarations";
+import { countCalls } from "./handlers/countCalls";
+import { countConstructorCalls } from "./handlers/countConstructorCalls";
 
 const prototypeDecorator = (targetClass: any) => {
   const descriptors = Object.getOwnPropertyDescriptors(targetClass.prototype);

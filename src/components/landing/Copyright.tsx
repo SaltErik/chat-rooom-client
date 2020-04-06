@@ -2,8 +2,8 @@ import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { PureComponent } from "react";
-import { CountCalls } from "../../decorators/@class/CountCalls";
-import { AutoBind } from "../../decorators/@method/AutoBind";
+import { AutoBind } from "../../decorators/AutoBind";
+import { CountCalls } from "../../decorators/CountCalls";
 
 const year = new Date().getFullYear();
 

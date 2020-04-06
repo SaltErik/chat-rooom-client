@@ -2,8 +2,8 @@ import * as React from "react";
 import { PureComponent } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Application } from "../components/Application";
-import { CountCalls } from "../decorators/@class/CountCalls";
-import { AutoBind } from "../decorators/@method/AutoBind";
+import { AutoBind } from "../decorators/AutoBind";
+import { CountCalls } from "../decorators/CountCalls";
 import { PitOfSuccess } from "./PitOfSuccess";
 
 interface Props {}
