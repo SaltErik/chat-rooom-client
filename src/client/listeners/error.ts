@@ -1,4 +1,4 @@
-import { count } from "../../utils/console";
+import { count, warn } from "../../utils/console";
 import { nay } from "../../utils/nay";
 
 function handleError(this: WebSocket, event: Event): void {
@@ -7,7 +7,7 @@ function handleError(this: WebSocket, event: Event): void {
   event.stopPropagation();
   event.stopImmediatePropagation();
   nay(`A connection error occured!`);
-  console.warn(event);
+  warn(event);
 }
 
 export { handleError };
