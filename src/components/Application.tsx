@@ -138,7 +138,7 @@ class Application extends PureComponent<Props, State> {
 
   transmit(this: Application, message: string): void {
     const { ws } = this.state;
-    if (ws?.readyState === 1) {
+    if (ws && ws.readyState === 1) {
       ws.send(message);
     }
   }

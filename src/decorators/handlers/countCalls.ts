@@ -5,6 +5,10 @@ const countCalls: ProxyHandler<Function> = {
     count(`${thisArg.constructor.name}: ${target.name}`);
     return target.apply(thisArg, argumentsList);
   },
+  construct(original: any, argumentsList: unknown[], _proxied: any) {
+    count(`${original.name}: constructor`);
+    return new original(...argumentsList);
+  },
 };
 
 export { countCalls };

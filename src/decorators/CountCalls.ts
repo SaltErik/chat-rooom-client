@@ -1,4 +1,3 @@
-import { isConstructorMethod } from "../predicates/classes/isConstructorMethod";
 import { countCalls } from "./handlers/countCalls";
 
 const prototypeDecorator = (targetClass: any) => {
@@ -7,12 +6,11 @@ const prototypeDecorator = (targetClass: any) => {
 
   for (let descriptor in descriptors) {
     const method: Function = classPrototype[descriptor];
-
-    if (!isConstructorMethod(method, targetClass)) {
-      classPrototype[descriptor] = new Proxy(method, countCalls);
-    }
+    classPrototype[descriptor] = new Proxy(method, countCalls);
   }
-  return targetClass;
+
+  const decoratedClass = new Proxy(targetClass, countCalls);
+  return decoratedClass;
 };
 
 export { prototypeDecorator as CountCalls };
