@@ -1,4 +1,4 @@
-import { isSyntaxError } from "../predicates/errors/isSyntaxError";
+import { isSyntaxError } from "../predicates/errors/SyntaxError";
 import { Inbox } from "../typings/declarations";
 import { count } from "../utils/console";
 import { nay } from "../utils/nay";
