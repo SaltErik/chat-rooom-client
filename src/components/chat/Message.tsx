@@ -18,7 +18,7 @@ class Message extends PureComponent<Props, State> {
   render(this: Message): JSX.Element {
     const { author, text }: Props = this.props;
 
-    return <li>{`${author}: ${text}`}</li>;
+    return <li className="list-group-item">{`${author}: ${text}`}</li>;
   }
 }
 

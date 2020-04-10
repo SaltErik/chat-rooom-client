@@ -22,7 +22,7 @@ class Conversation extends PureComponent<Props, State> {
     const { messages, username }: Props = this.props;
 
     return (
-      <ul>
+      <ul className="list-group">
         {messages.map((message) => {
           log(message);
           const { text, author, UUID } = message;

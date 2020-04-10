@@ -30,6 +30,7 @@ const config: WebPack.Configuration = {
     ],
   },
   plugins: [htmlPlugin],
+  performance: { hints: false },
 };
 
 export default config;
