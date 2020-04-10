@@ -13,8 +13,6 @@ interface State {}
 @CountCalls
 @AutoBind
 class Message extends PureComponent<Props, State> {
-  state: State = {};
-
   render(this: Message): JSX.Element {
     const { author, text }: Props = this.props;
 

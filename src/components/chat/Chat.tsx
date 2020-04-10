@@ -19,8 +19,6 @@ interface State {}
 @CountCalls
 @AutoBind
 class Chat extends PureComponent<Props, State> {
-  state: State = {};
-
   render(this: Chat): JSX.Element {
     const { onChange, onKeyDown, messages, mirror, username }: Props = this.props;
 

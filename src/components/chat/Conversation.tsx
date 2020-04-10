@@ -16,8 +16,6 @@ interface State {}
 @CountCalls
 @AutoBind
 class Conversation extends PureComponent<Props, State> {
-  state: State = {};
-
   render(this: Conversation): JSX.Element {
     const { messages, username }: Props = this.props;
 
