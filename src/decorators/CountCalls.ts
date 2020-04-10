@@ -1,15 +1,14 @@
-import { countCalls } from "./handlers/countCalls";
+import { trapCalls } from "./handlers/trapCalls";
 
 const prototypeDecorator = (targetClass: any) => {
   const classPrototype = targetClass.prototype;
   const descriptors = Object.getOwnPropertyDescriptors(classPrototype);
 
   for (let descriptor in descriptors) {
-    const method: Function = classPrototype[descriptor];
-    classPrototype[descriptor] = new Proxy(method, countCalls);
+    classPrototype[descriptor] = new Proxy(classPrototype[descriptor], trapCalls);
   }
 
-  const decoratedClass = new Proxy(targetClass, countCalls);
+  const decoratedClass = new Proxy(targetClass, trapCalls);
   return decoratedClass;
 };
 

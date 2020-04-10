@@ -1,4 +1,4 @@
-import { interceptNewInstances } from "./handlers/interceptNewInstances";
+import { trapNewInstances } from "./handlers/trapNewInstances";
 
 /** Ensures that static methods can be safely passed (and invoked) as event handlers. */
 const autoBindClass = (targetClass: any) => {
@@ -14,7 +14,7 @@ const autoBindClass = (targetClass: any) => {
 
 const classDecorator = (targetClass: any) => {
   const boundClass = autoBindClass(targetClass);
-  const proxiedClass = new Proxy(boundClass, interceptNewInstances);
+  const proxiedClass = new Proxy(boundClass, trapNewInstances);
   return proxiedClass;
 };
 

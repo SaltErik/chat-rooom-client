@@ -11,7 +11,7 @@ const autoBindInstance = (instance: any) => {
   return instance;
 };
 
-const interceptNewInstances = {
+const trapNewInstances = {
   construct(original: any, argumentsList: unknown[], _proxied: any) {
     const instance = new original(...argumentsList);
     const boundInstance = autoBindInstance(instance);
@@ -19,4 +19,4 @@ const interceptNewInstances = {
   },
 };
 
-export { interceptNewInstances };
+export { trapNewInstances };
