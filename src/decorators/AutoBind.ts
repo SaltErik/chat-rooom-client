@@ -1,3 +1,4 @@
+import { isFunction } from "util";
 import { trapNewInstances } from "./handlers/trapNewInstances";
 
 /** Ensures that static methods can be safely passed (and invoked) as event handlers. */
@@ -5,7 +6,7 @@ const autoBindClass = (targetClass: any) => {
   const descriptors = Object.getOwnPropertyDescriptors(targetClass);
 
   for (let descriptor in descriptors) {
-    if (typeof targetClass[descriptor] === "function") {
+    if (isFunction(targetClass[descriptor])) {
       targetClass[descriptor] = targetClass[descriptor].bind(targetClass);
     }
   }

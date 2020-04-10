@@ -1,10 +1,12 @@
+import { isFunction } from "../../predicates/objects/Function";
+
 /** Ensures that instance methods can be safely passed (and invoked) as event handlers. */
 const autoBindInstance = (instance: any) => {
   const classPrototype = instance.constructor.prototype;
   const descriptors = Object.getOwnPropertyDescriptors(classPrototype);
 
   for (let descriptor in descriptors) {
-    if (typeof classPrototype[descriptor] === "function") {
+    if (isFunction(classPrototype[descriptor])) {
       instance[descriptor] = classPrototype[descriptor].bind(instance);
     }
   }
