@@ -1,11 +1,7 @@
-import * as HTMLPlugin from "html-webpack-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import * as HTMLWebpackPlugin from "html-webpack-plugin";
 import * as path from "path";
 import * as WebPack from "webpack";
-
-const htmlPlugin = new HTMLPlugin({
-  template: "./src/index.html",
-  filename: "./index.html",
-});
 
 const config: WebPack.Configuration = {
   mode: "production",
@@ -45,7 +41,13 @@ const config: WebPack.Configuration = {
       },
     ],
   },
-  plugins: [htmlPlugin],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HTMLWebpackPlugin({
+      template: "./src/index.html",
+      filename: "./index.html",
+    }),
+  ],
   performance: { hints: false },
 };
 

@@ -1,9 +1,5 @@
-import * as HTMLPlugin from "html-webpack-plugin";
+import * as HTMLWebpackPlugin from "html-webpack-plugin";
 import * as WebPack from "webpack";
-
-const htmlPlugin = new HTMLPlugin({
-  template: "./src/index.html",
-});
 
 const config: WebPack.Configuration = {
   mode: "development",
@@ -40,7 +36,11 @@ const config: WebPack.Configuration = {
     ],
   },
   devtool: "eval-source-map",
-  plugins: [htmlPlugin],
+  plugins: [
+    new HTMLWebpackPlugin({
+      template: "./src/index.html",
+    }),
+  ],
   performance: { hints: false },
 };
 
