@@ -1,5 +1,5 @@
 import { isSyntaxError } from "../predicates/errors/syntaxError";
-import { Inbox } from "../typings/declarations";
+import { Inbox } from "../typings/inbox";
 import { count } from "../utils/console";
 import { nay } from "../utils/nay";
 import { rethrow } from "../utils/rethrow";

@@ -1,5 +1,5 @@
 import { isTypeError } from "../predicates/errors/typeError";
-import { Outbox } from "../typings/declarations";
+import { Outbox } from "../typings/outbox";
 import { count } from "../utils/console";
 import { nay } from "../utils/nay";
 import { rethrow } from "../utils/rethrow";

@@ -1,7 +1,7 @@
 import { Application } from "../../components/Application";
 import { isInboxChatMessage } from "../../predicates/messages/inbox/chatMessage";
 import { isInboxUsername } from "../../predicates/messages/inbox/username";
-import { Inbox } from "../../typings/declarations";
+import { Inbox } from "../../typings/inbox";
 import { count, log } from "../../utils/console";
 import { nay } from "../../utils/nay";
 import { deserialize } from "../deserialize";

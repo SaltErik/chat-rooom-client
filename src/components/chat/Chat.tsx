@@ -2,7 +2,7 @@ import * as React from "react";
 import { ChangeEvent, KeyboardEvent, PureComponent } from "react";
 import { AutoBind } from "../../decorators/AutoBind";
 import { CountCalls } from "../../decorators/CountCalls";
-import { Inbox } from "../../typings/declarations";
+import { Inbox } from "../../typings/inbox";
 import { Conversation } from "./Conversation";
 import { TextInput } from "./TextInput";
 

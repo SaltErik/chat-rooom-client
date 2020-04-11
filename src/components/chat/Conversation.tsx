@@ -2,7 +2,7 @@ import * as React from "react";
 import { PureComponent } from "react";
 import { AutoBind } from "../../decorators/AutoBind";
 import { CountCalls } from "../../decorators/CountCalls";
-import { Inbox } from "../../typings/declarations";
+import { Inbox } from "../../typings/inbox";
 import { log } from "../../utils/console";
 import { Message } from "./Message";
 
