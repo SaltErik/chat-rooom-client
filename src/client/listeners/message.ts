@@ -3,7 +3,7 @@ import { isInboxChatMessage } from "../../predicates/messages/inbox/chatMessage"
 import { isInboxUsername } from "../../predicates/messages/inbox/username";
 import { Inbox } from "../../typings/inbox";
 import { count, log } from "../../utils/console";
-import { nay } from "../../utils/nay";
+import { nay } from "../../terminal/nay";
 import { deserialize } from "../deserialize";
 
 function handleMessage(this: Application, event: MessageEvent): void {

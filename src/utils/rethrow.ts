@@ -1,4 +1,4 @@
-import { nay } from "./nay";
+import { nay } from "../terminal/nay";
 
 const rethrow = (error: Error): never => {
   nay(`Unexpected error! Rethrowing...`);

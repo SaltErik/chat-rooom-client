@@ -1,6 +1,6 @@
 import { count } from "../../utils/console";
-import { nay } from "../../utils/nay";
-import { yay } from "../../utils/yay";
+import { nay } from "../../terminal/nay";
+import { yay } from "../../terminal/yay";
 
 function handleClose(this: WebSocket, { code, reason, wasClean }: CloseEvent): void {
   count(`client: handleClose`);

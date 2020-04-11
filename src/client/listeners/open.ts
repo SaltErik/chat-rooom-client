@@ -1,5 +1,5 @@
 import { count } from "../../utils/console";
-import { yay } from "../../utils/yay";
+import { yay } from "../../terminal/yay";
 
 function handleOpen(this: WebSocket, _event: Event): void {
   count(`client: handleOpen`);

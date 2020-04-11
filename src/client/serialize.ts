@@ -1,7 +1,7 @@
 import { isTypeError } from "../predicates/errors/typeError";
 import { Outbox } from "../typings/outbox";
 import { count } from "../utils/console";
-import { nay } from "../utils/nay";
+import { nay } from "../terminal/nay";
 import { rethrow } from "../utils/rethrow";
 
 const serialize = (message: Outbox.Message): string => {

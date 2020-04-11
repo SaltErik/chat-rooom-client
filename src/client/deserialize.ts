@@ -1,7 +1,7 @@
 import { isSyntaxError } from "../predicates/errors/syntaxError";
 import { Inbox } from "../typings/inbox";
 import { count } from "../utils/console";
-import { nay } from "../utils/nay";
+import { nay } from "../terminal/nay";
 import { rethrow } from "../utils/rethrow";
 
 const deserialize = (message: string): Inbox.ChatMessage => {

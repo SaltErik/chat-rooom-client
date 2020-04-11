@@ -1,4 +1,4 @@
-import { log, warn } from "./console";
+import { log, warn } from "../utils/console";
 
 const style = [
   `font-weight: bold`,

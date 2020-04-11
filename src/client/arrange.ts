@@ -1,7 +1,7 @@
 import { Application } from "../components/Application";
 import { ServerSettings } from "../typings/declarations";
 import { count } from "../utils/console";
-import { nay } from "../utils/nay";
+import { nay } from "../terminal/nay";
 import { deriveURL } from "./deriveURL";
 import { handleClose } from "./listeners/close";
 import { handleError } from "./listeners/error";
