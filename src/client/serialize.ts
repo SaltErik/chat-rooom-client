@@ -1,4 +1,4 @@
-import { isTypeError } from "../predicates/errors/TypeError";
+import { isTypeError } from "../predicates/errors/typeError";
 import { Outbox } from "../typings/declarations";
 import { count } from "../utils/console";
 import { nay } from "../utils/nay";

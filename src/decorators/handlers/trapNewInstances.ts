@@ -1,4 +1,4 @@
-import { isFunction } from "../../predicates/objects/Function";
+import { isFunction } from "../../predicates/objects/function";
 
 /** Ensures that instance methods can be safely passed (and invoked) as event handlers. */
 const autoBindInstance = (instance: any) => {
