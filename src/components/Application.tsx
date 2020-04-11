@@ -4,9 +4,9 @@ import { arrangeWebSocketConnection } from "../client/arrange";
 import { serialize } from "../client/serialize";
 import { AutoBind } from "../decorators/AutoBind";
 import { CountCalls } from "../decorators/CountCalls";
+import { nay } from "../terminal/nay";
 import { Inbox } from "../typings/inbox";
 import { Outbox } from "../typings/outbox";
-import { nay } from "../terminal/nay";
 import { Chat } from "./chat/Chat";
 import { SignIn } from "./landing/SignIn";
 

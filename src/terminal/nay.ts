@@ -1,4 +1,4 @@
-import { log, warn } from "../utils/console";
+import { log } from "../utils/console";
 
 const style = [
   `font-weight: bold`,
@@ -10,7 +10,7 @@ const style = [
 const nay = (text: string, error?: Error) => {
   log(`%c[!] ${text}`, style);
   if (error) {
-    warn(error);
+    log(error);
   }
 };
 

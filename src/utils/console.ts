@@ -1,6 +1,3 @@
-const console = window.console;
-const count = console.count;
-const log = console.log;
-const warn = console.warn;
+const { count, dir, log, warn } = window.console;
 
-export { console, count, log, warn };
+export { count, log, warn, dir };
