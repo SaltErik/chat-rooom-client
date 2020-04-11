@@ -39,6 +39,7 @@ const config: WebPack.Configuration = {
       },
     ],
   },
+  devtool: "eval-source-map",
   plugins: [htmlPlugin],
   performance: { hints: false },
 };
