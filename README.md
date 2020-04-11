@@ -7,7 +7,7 @@ A tiny React-powered chat client, written in TypeScript.
 1. git clone https://github.com/SaltErik/chat-client.git
 2. cd chat-client
 3. npm start (to run dev environment)
-4. npm build (to build production release)
+4. npm run build (to build production release)
 
 ## For optimal results
 
