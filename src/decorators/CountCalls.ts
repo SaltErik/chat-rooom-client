@@ -1,6 +1,6 @@
 import { trapCalls } from "./handlers/trapCalls";
 
-const prototypeDecorator = (targetClass: any) => {
+const prototypeDecorator = (targetClass: any): any => {
   const classPrototype = targetClass.prototype;
   const descriptors = Object.getOwnPropertyDescriptors(classPrototype);
 

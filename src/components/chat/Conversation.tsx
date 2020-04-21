@@ -1,7 +1,5 @@
 import * as React from "react";
-import { PureComponent } from "react";
-import { AutoBind } from "../../decorators/AutoBind";
-import { CountCalls } from "../../decorators/CountCalls";
+import { FC } from "react";
 import { Inbox } from "../../typings/inbox";
 import { log } from "../../utils/console";
 import { Message } from "./Message";
@@ -11,25 +9,18 @@ interface Props {
   username: string;
 }
 
-interface State {}
-
-@CountCalls
-@AutoBind
-class Conversation extends PureComponent<Props, State> {
-  render(this: Conversation): JSX.Element {
-    const { messages, username }: Props = this.props;
-
-    return (
-      <ul className="list-group">
-        {messages.map((message) => {
-          log(message);
-          const { text, author, UUID } = message;
+const Conversation: FC<Props> = ({ messages, username }): JSX.Element => {
+  return (
+    <ul className="list-group">
+      {messages.map(
+        ({ text, author, UUID }): JSX.Element => {
+          log({ text, author, UUID });
           const displayName = username === author ? `You` : author;
           return <Message key={UUID} text={text} author={displayName} />;
-        })}
-      </ul>
-    );
-  }
-}
+        }
+      )}
+    </ul>
+  );
+};
 
 export { Conversation };

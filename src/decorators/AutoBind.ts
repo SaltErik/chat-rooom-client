@@ -2,7 +2,7 @@ import { isFunction } from "util";
 import { trapNewInstances } from "./handlers/trapNewInstances";
 
 /** Ensures that static methods can be safely passed (and invoked) as event handlers. */
-const autoBindClass = (targetClass: any) => {
+const autoBindClass = (targetClass: any): any => {
   const descriptors = Object.getOwnPropertyDescriptors(targetClass);
 
   for (let descriptor in descriptors) {
@@ -13,7 +13,7 @@ const autoBindClass = (targetClass: any) => {
   return targetClass;
 };
 
-const classDecorator = (targetClass: any) => {
+const classDecorator = (targetClass: any): any => {
   const boundClass = autoBindClass(targetClass);
   const proxiedClass = new Proxy(boundClass, trapNewInstances);
   return proxiedClass;

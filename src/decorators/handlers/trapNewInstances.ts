@@ -1,7 +1,7 @@
 import { isFunction } from "../../predicates/objects/function";
 
 /** Ensures that instance methods can be safely passed (and invoked) as event handlers. */
-const autoBindInstance = (instance: any) => {
+const autoBindInstance = (instance: any): any => {
   const classPrototype = instance.constructor.prototype;
   const descriptors = Object.getOwnPropertyDescriptors(classPrototype);
 
@@ -14,7 +14,7 @@ const autoBindInstance = (instance: any) => {
 };
 
 const trapNewInstances = {
-  construct(original: any, argumentsList: unknown[], _proxied: any) {
+  construct(original: any, argumentsList: unknown[], _proxied: any): any {
     const instance = new original(...argumentsList);
     const boundInstance = autoBindInstance(instance);
     return boundInstance;

@@ -6,7 +6,7 @@ const style = [
 ].join(`;`);
 
 /** Convenience function for console-logging informative events, as indicated by the yellow text and "[?]" symbol. */
-const hay = (text: string, error?: Error) => {
+const hay = (text: string, error?: Error): void => {
   log(`%c[!] ${text}`, style);
   if (error) {
     dir(error);

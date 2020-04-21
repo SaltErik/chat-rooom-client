@@ -1,23 +1,13 @@
 import * as React from "react";
-import { PureComponent } from "react";
-import { AutoBind } from "../../decorators/AutoBind";
-import { CountCalls } from "../../decorators/CountCalls";
+import { FC } from "react";
 
 interface Props {
   author: string;
   text: string;
 }
 
-interface State {}
-
-@CountCalls
-@AutoBind
-class Message extends PureComponent<Props, State> {
-  render(this: Message): JSX.Element {
-    const { author, text }: Props = this.props;
-
-    return <li className="list-group-item">{`${author}: ${text}`}</li>;
-  }
-}
+const Message: FC<Props> = ({ author, text }): JSX.Element => {
+  return <li className="list-group-item">{`${author}: ${text}`}</li>;
+};
 
 export { Message };

@@ -7,7 +7,7 @@ const style = [
 ].join(`;`);
 
 /** Convenience function for console-logging successes, as indicated by the green text and "[+]" symbol. */
-const yay = (text: string) => {
+const yay = (text: string): void => {
   log(`%c[+] ${text}`, style);
 };
 

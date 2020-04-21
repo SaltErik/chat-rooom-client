@@ -7,7 +7,7 @@ const style = [
 ].join(`;`);
 
 /** Convenience function for console-logging failures, as indicated by the red text and "[!]" symbol. */
-const nay = (text: string, error?: Error) => {
+const nay = (text: string, error?: Error): void => {
   log(`%c[!] ${text}`, style);
   if (error) {
     log(error);

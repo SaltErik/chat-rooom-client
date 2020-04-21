@@ -1,8 +1,6 @@
 import * as React from "react";
-import { PureComponent } from "react";
+import { FC } from "react";
 import { Redirect } from "react-router-dom";
-import { AutoBind } from "../../decorators/AutoBind";
-import { CountCalls } from "../../decorators/CountCalls";
 
 const splashPage = {
   pathname: "/join",
@@ -10,13 +8,8 @@ const splashPage = {
 
 interface Props {}
 
-interface State {}
+const PitOfSuccess: FC<Props> = (): JSX.Element => {
+  return <Redirect to={splashPage} />;
+};
 
-@CountCalls
-@AutoBind
-class PitOfSuccess extends PureComponent<Props, State> {
-  render(this: PitOfSuccess): JSX.Element {
-    return <Redirect to={splashPage} />;
-  }
-}
 export { PitOfSuccess };
