@@ -1,7 +1,6 @@
-import { Application } from "../components/Application";
+import { nay } from "../terminal/nay";
 import { ServerSettings } from "../typings/declarations";
 import { count } from "../utils/console";
-import { nay } from "../terminal/nay";
 import { deriveURL } from "./deriveURL";
 import { handleClose } from "./listeners/close";
 import { handleError } from "./listeners/error";
@@ -16,7 +15,7 @@ const serverSettings: ServerSettings = {
 
 let debounced = false;
 
-const arrangeWebSocketConnection = (that: Application): WebSocket | null => {
+const arrangeWebSocketConnection = (that: any): WebSocket | null => {
   count(`client: arrangeWebSocketConnection`);
   let ws: WebSocket | null = null;
   if (!debounced) {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChangeEvent, FormEvent, KeyboardEvent, PureComponent } from "react";
+import { ChangeEvent, FC, FormEvent, KeyboardEvent, useEffect, useState } from "react";
 import { arrangeWebSocketConnection } from "../client/arrange";
 import { serialize } from "../client/serialize";
 import { nay } from "../terminal/nay";
@@ -10,153 +10,106 @@ import { SignIn } from "./landing/SignIn";
 
 interface Props {}
 
-interface State {
-  chatField: string;
-  isUsernameAccepted: boolean;
-  messages: Inbox.ChatMessage[];
-  pendingUsername: string;
-  username: string;
-  usernameField: string;
-  ws: WebSocket | null;
-}
+const Application: FC<Props> = (): JSX.Element => {
+  const [chatField, setChatField] = useState<string>("");
+  const [isUsernameAccepted, setIsUsernameAccepted] = useState<boolean>(false);
+  const [messages, setMessages] = useState<Inbox.ChatMessage[]>([]);
+  const [pendingUsername, setPendingUsername] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [usernameField, setUsernameField] = useState<string>("");
+  const [websocket, setWebsocket] = useState<WebSocket | null>(null);
 
-class Application extends PureComponent<Props, State> {
-  state: State = {
-    chatField: "",
-    isUsernameAccepted: false,
-    messages: [],
-    pendingUsername: "",
-    username: "",
-    usernameField: "",
-    ws: null,
+  // componentDidMount //////////////////////////////
+  useEffect(() => {
+    const handle = arrangeWebSocketConnection(Application);
+    if (handle) {
+      setWebsocket(handle);
+    }
+  }, []);
+
+  const handleChangingChatField = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.persist();
+    const { value } = event.target;
+    setChatField(value);
   };
 
-  componentDidMount(this: Application): void {
-    const ws = arrangeWebSocketConnection(this);
-    if (ws) {
-      this.setState(() => ({
-        ws,
-      }));
-    }
-  }
-
-  handleChangingChatField(this: Application, event: ChangeEvent<HTMLInputElement>): void {
+  const handleChangingUsernameField = (event: ChangeEvent<HTMLInputElement>): void => {
     event.persist();
-    this.setState(() => ({
-      chatField: event.target.value,
-    }));
-  }
+    const { value } = event.target;
+    setUsernameField(value);
+  };
 
-  handleChangingUsernameField(this: Application, event: ChangeEvent<HTMLInputElement>): void {
-    event.persist();
-    this.setState(() => ({
-      usernameField: event.target.value,
-    }));
-  }
-
-  handleSubmitMessage(this: Application, event: KeyboardEvent): void {
+  const handleSubmitMessage = (event: KeyboardEvent): void => {
     if (event.key === "Enter") {
       event.preventDefault();
-      const { chatField, username } = this.state;
       const message: Outbox.ChatMessage = {
         text: chatField,
         author: username,
       };
-      this.handleOutgoingChatMessage(message);
-      this.setState(() => ({
-        chatField: "",
-      }));
+      handleOutgoingChatMessage(message);
+      setChatField("");
     }
-  }
+  };
 
-  handleSubmitUsername(this: Application, event: FormEvent<HTMLFormElement>): void {
+  const handleSubmitUsername = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    this.setState(
-      (state) => ({
-        pendingUsername: state.usernameField,
-      }),
-      () => {
-        const { pendingUsername } = this.state;
-        const desiredUsername: Outbox.Username = {
-          username: pendingUsername,
-        };
-        this.handleOutgoingUsername(desiredUsername);
-      }
-    );
-    this.setState(() => ({
-      usernameField: "",
-    }));
-  }
+    setPendingUsername(usernameField);
+    const desiredUsername: Outbox.Username = {
+      username: pendingUsername,
+    };
+    handleOutgoingUsername(desiredUsername);
+    setUsername("");
+  };
 
-  handleIncomingUsername(this: Application, message: Inbox.Username): void {
-    const { username, pendingUsername } = this.state;
+  const handleIncomingUsername = (message: Inbox.Username): void => {
     if (!username) {
       if (pendingUsername) {
         if (message.isUsernameAccepted) {
-          this.setState(() => ({
-            username: pendingUsername,
-            isUsernameAccepted: true,
-            pendingUsername: "",
-          }));
+          setUsername(pendingUsername);
+          setIsUsernameAccepted(true);
+          setPendingUsername("");
         } else {
-          this.setState(() => ({
-            isUsernameAccepted: false,
-            pendingUsername: "",
-          }));
+          setIsUsernameAccepted(false);
+          setPendingUsername("");
         }
       }
     }
-  }
+  };
 
-  handleOutgoingUsername(this: Application, desiredUsername: Outbox.Username): void {
-    const { isUsernameAccepted } = this.state;
-    if (isUsernameAccepted) {
-      return nay(`Username is already accepted! This should not be sent, or even asked for...`);
-    }
+  const handleOutgoingUsername = (desiredUsername: Outbox.Username): void => {
     const serialized: string = serialize(desiredUsername);
-    this.transmit(serialized);
-  }
+    transmit(serialized);
+  };
 
-  handleIncomingChatMessage(this: Application, message: Inbox.ChatMessage): void {
-    if (!message.text) nay(`INCOMING: Text field was empty!`);
-    if (!message.author) nay(`INCOMING: Author field was empty!`);
-    if (!message.UUID) nay(`INCOMING: UUID field was empty!`);
-    this.setState((state) => ({
-      messages: [...state.messages, message],
-    }));
-  }
+  const handleIncomingChatMessage = (message: Inbox.ChatMessage): void => {
+    const { text, author, UUID } = message;
+    if (!text) nay(`INCOMING: Text field was empty!`);
+    if (!author) nay(`INCOMING: Author field was empty!`);
+    if (!UUID) nay(`INCOMING: UUID field was empty!`);
+    setMessages([...messages, message]);
+  };
 
-  handleOutgoingChatMessage(this: Application, message: Outbox.ChatMessage): void {
-    if (!message.text) nay(`OUTGOING: Text field was empty!`);
-    if (!message.author) nay(`OUTGOING: Author field was empty!`);
+  const handleOutgoingChatMessage = (message: Outbox.ChatMessage): void => {
+    const { text, author } = message;
+    if (!text) nay(`OUTGOING: Text field was empty!`);
+    if (!author) nay(`OUTGOING: Author field was empty!`);
     const serialized: string = serialize(message);
-    this.transmit(serialized);
-  }
+    transmit(serialized);
+  };
 
-  transmit(this: Application, message: string): void {
-    const { ws } = this.state;
-    if (ws && ws.readyState === 1) {
-      ws.send(message);
+  const transmit = (message: string): void => {
+    if (websocket && websocket.readyState === 1) {
+      websocket.send(message);
     }
+  };
+
+  if (isUsernameAccepted) {
+    return (
+      <Chat onChange={handleChangingChatField} onKeyDown={handleSubmitMessage} messages={messages} mirror={chatField} username={username} />
+    );
   }
 
-  render(this: Application): JSX.Element {
-    const { messages, username, chatField, usernameField, isUsernameAccepted }: State = this.state;
-
-    if (isUsernameAccepted) {
-      return (
-        <Chat
-          onChange={this.handleChangingChatField}
-          onKeyDown={this.handleSubmitMessage}
-          messages={messages}
-          mirror={chatField}
-          username={username}
-        />
-      );
-    }
-
-    return <SignIn onChange={this.handleChangingUsernameField} onSubmit={this.handleSubmitUsername} mirror={usernameField} />;
-  }
-}
+  return <SignIn onChange={handleChangingUsernameField} onSubmit={handleSubmitUsername} mirror={usernameField} />;
+};
 
 export { Application };

@@ -1,12 +1,11 @@
-import { Application } from "../../components/Application";
 import { isInboxChatMessage } from "../../predicates/messages/inbox/chatMessage";
 import { isInboxUsername } from "../../predicates/messages/inbox/username";
+import { nay } from "../../terminal/nay";
 import { Inbox } from "../../typings/inbox";
 import { count, log } from "../../utils/console";
-import { nay } from "../../terminal/nay";
 import { deserialize } from "../deserialize";
 
-function handleMessage(this: Application, event: MessageEvent): void {
+function handleMessage(this: any, event: MessageEvent): void {
   count(`client: handleMessage`);
   const message: Inbox.Message = deserialize(event.data);
   log(message);
